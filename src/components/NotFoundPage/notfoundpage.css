@@ -2,6 +2,8 @@
   padding: 40px 0;
   background: #fff;
   font-family: "Arvo", serif;
+  height: 100vh;
+  width: auto;
 }
 
 .page_404 img {
@@ -12,6 +14,8 @@
   background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
   height: 400px;
   background-position: center;
+  background-repeat: none;
+  width: 100vw;
 }
 
 .four_zero_four_bg h1 {

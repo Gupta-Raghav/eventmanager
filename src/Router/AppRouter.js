@@ -3,7 +3,7 @@ import createHistory from 'history/createBrowserHistory';
 import {Router, Switch,Route} from 'react-router-dom';
 import Landing from '../components/Landing Page/Landing';
 import Dashboard from '../components/Dashboard/dashboard'
-import NotFoundPage from '../components/NotFoundPage';
+import NotFoundPage from '../components/NotFoundPage/NotFoundPage';
 export const history = createHistory();
 const AppRouter = () => (
     <Router history={history}>
