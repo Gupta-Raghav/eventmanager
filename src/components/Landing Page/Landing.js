@@ -1,4 +1,5 @@
-import React, { useState,useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   Modal,
@@ -9,18 +10,9 @@ import {
   Divider,
 } from '@material-ui/core';
 import './landing.css';
-import {UserContext} from '../providers/UserProvider';
-import {Redirect} from 'react-router-dom';
-import {firebase,googleAuthProvider,auth} from '../../firebase';
+import { UserContext } from '../providers/UserProvider';
+import { firebase, googleAuthProvider, auth } from '../../firebase';
 
-
-const startLogin = () => {
-      auth.signInWithPopup(googleAuthProvider).then((res) => {
-        console.log(res.user);
-      }).catch((error)=>{
-        alert(error.message);
-      });
-}
 const useStyles = makeStyles(() => ({
   modal: {
     display: 'flex',
@@ -36,22 +28,32 @@ const useStyles = makeStyles(() => ({
     borderRadius: '4px',
   },
 }));
-const Landing = () => {
+const Landing = (props) => {
   const classes = useStyles();
+  const history = useHistory();
   const user = useContext(UserContext);
-  const [redirect,setRedirect]= useState(null)
   const [open, setOpen] = useState(false);
+  // console.log(UserContext);
+  const startLogin = () => {
+    auth
+      .signInWithPopup(googleAuthProvider)
+      .then((res) => {
+        history.push('/events');
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
   const toggleOpen = () => {
     setOpen(!open);
   };
   useEffect(() => {
-    if(user){
-      setRedirect('/events');
+    if (user) {
+      history.push('/events');
+      // setRedirect('/events');
     }
-  }, [user])
-  if(redirect){
-    <Redirect to={redirect}/>
-  }
+  }, [history, user]);
   return (
     <div class='landing' style={{ overflowY: 'hidden' }}>
       <main class='main'>
@@ -79,7 +81,7 @@ const Landing = () => {
                   </Grid>
                 </Grid>
                 <Grid container direction='column' spacing={1}>
-                <button onClick={startLogin}>Login  </button>
+                  <button onClick={startLogin}>Login </button>
                 </Grid>
               </Grid>
             </div>

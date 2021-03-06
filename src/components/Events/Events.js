@@ -1,4 +1,5 @@
-import React , {useState,useEffect,createContext, useContext} from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   Button,
@@ -14,24 +15,20 @@ import {
 import Navbar from '../navbar/Navbar';
 import { UserContext } from '../providers/UserProvider';
 import { Redirect } from 'react-router-dom';
-const useStyles = makeStyles(() => ({
-}));
+import { firebase, googleAuthProvider, auth } from '../../firebase';
+const useStyles = makeStyles(() => ({}));
 export default function Events() {
-    const classes = useStyles();
-    const user = useContext(UserContext);
-  const [redirect, setredirect] = useState(null);
-
+  const classes = useStyles();
+  const user = useContext(UserContext);
+  const history = useHistory();
   useEffect(() => {
     if (!user) {
-      setredirect("/");
+      history.push('/');
     }
-  }, [user]);
-  if (redirect) {
-    <Redirect to={redirect} />;
-  }
-    return (
-        <>
-        <Navbar/>
-        </>
-    )
+  }, [user, history]);
+  return (
+    <>
+      <Navbar />
+    </>
+  );
 }
