@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import {
   makeStyles,
   Modal,
@@ -9,7 +9,18 @@ import {
   Divider,
 } from '@material-ui/core';
 import './landing.css';
+import {UserContext} from '../providers/UserProvider';
+import {Redirect} from 'react-router-dom';
+import {firebase,googleAuthProvider,auth} from '../../firebase';
 
+
+const startLogin = () => {
+      auth.signInWithPopup(googleAuthProvider).then((res) => {
+        console.log(res.user);
+      }).catch((error)=>{
+        alert(error.message);
+      });
+}
 const useStyles = makeStyles(() => ({
   modal: {
     display: 'flex',
@@ -27,13 +38,23 @@ const useStyles = makeStyles(() => ({
 }));
 const Landing = () => {
   const classes = useStyles();
+  const user = useContext(UserContext);
+  const [redirect,setRedirect]= useState(null)
   const [open, setOpen] = useState(false);
   const toggleOpen = () => {
     setOpen(!open);
   };
+  useEffect(() => {
+    if(user){
+      setRedirect('/events');
+    }
+  }, [user])
+  if(redirect){
+    <Redirect to={redirect}/>
+  }
   return (
-    <div style={{ overflowY: 'hidden' }}>
-      <main>
+    <div class='landing' style={{ overflowY: 'hidden' }}>
+      <main class='main'>
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'
@@ -58,15 +79,7 @@ const Landing = () => {
                   </Grid>
                 </Grid>
                 <Grid container direction='column' spacing={1}>
-                  {/* LOGIN / REGISTRATION FORM - REFER TO https://material-ui.com/components/text-fields/ */}
-                  <Grid item>Blah</Grid>
-                  <Grid item>Blah</Grid>
-                  <Grid item>Blah</Grid>
-                  <Grid item>Blah</Grid>
-                  <Grid item>Blah</Grid>
-                  <Grid item>Blah</Grid>
-                  <Grid item>Blah</Grid>
-                  <Grid item>Blah</Grid>
+                <button onClick={startLogin}>Login  </button>
                 </Grid>
               </Grid>
             </div>
@@ -87,7 +100,7 @@ const Landing = () => {
           />
         </svg>
 
-        <article>
+        <article class='article'>
           <div class='illustration'>
             <img
               class='article_img'
