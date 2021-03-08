@@ -19,6 +19,7 @@ import { auth } from '../../firebase';
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
+    paddingBottom: '1em',
   },
   menuButton: {
     marginRight: '16px',
