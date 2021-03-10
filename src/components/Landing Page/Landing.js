@@ -103,22 +103,24 @@ const Landing = (props) => {
         </svg>
 
         <article class='article'>
-          <div class='illustration'>
             <img
               class='article_img'
               src='https://alcs-huddle.netlify.app/images/illustration-mockups.svg'
               alt=''
             />
-          </div>
+          
 
-          <div class='article_content'>
-            <h1>Start organizing you events with us!</h1>
-            <p>
+          <content class='article_content'>
+            {/* <h1 className="article_content_h1">Start organizing you events with us!</h1> */}
+            <Typography variant='h2' style={{fontWeight:'400'}}>
+Start organizing you events with us!
+</Typography>
+      <Typography variant='h4' style={{fontWeight:'50'}}>
               MUJ Event manager helps you find the events that are the best for
               you
-            </p>
+    </Typography>
             <button onClick={toggleOpen}>Register</button>
-          </div>
+          </content>
         </article>
       </main>
     </div>

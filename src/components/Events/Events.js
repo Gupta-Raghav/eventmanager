@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
+// import DateFnsUtils from '@date-io';
 import {
   makeStyles,
   Select,
@@ -11,7 +12,12 @@ import {
   Typography,
   Grid,
   InputLabel,
+  Paper,
   AppBar,
+  TextField,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Divider,
   InputAdornment,
   FormControl,
@@ -19,6 +25,11 @@ import {
   Toolbar,
   FilledInput,
 } from '@material-ui/core';
+// import {
+//   MuiPickersUtilsProvider,
+//   KeyboardTimePicker,
+//   KeyboardDatePicker,
+// } from '@material-ui/pickers';
 import Navbar from '../navbar/Navbar';
 import './Events.css';
 import { UserContext } from '../providers/UserProvider';
@@ -27,6 +38,20 @@ import { firebase, googleAuthProvider, auth } from '../../firebase';
 
 // TODO : https://material-ui.com/components/pickers/
 const useStyles = makeStyles(() => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: '8px',
+    marginRight: '8px',
+    width: 200,
+  },
+  paper:{
+    margin: '8px',
+    width: '100%',
+    height: '128px',
+  },
   eventsbg: {
     backgroundColor: '#f3f3f3',
   },
@@ -41,13 +66,18 @@ export default function Events() {
   const user = useContext(UserContext);
   const history = useHistory();
   const [searchItem, setSearchItem] = useState('');
-
+  const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
+  const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
+   const handleDateChange = (date) => {
+    setStartDate(date);
+  };
   useEffect(() => {
     if (!user) {
       history.push('/');
     }
   }, [user, history]);
   return (
+    // <MuiPickersUtilsProvider >\
     <div
       className='events'
       className={classes.eventsbg}
@@ -61,7 +91,7 @@ export default function Events() {
             <Grid item>
               <Typography className={classes.text}>
                 <a href='/upcoming'>
-                  <h2 className='upcoming'>Upcoming Events</h2>
+                  <h2 >Upcoming Events</h2>
                 </a>
               </Typography>
             </Grid>
@@ -76,14 +106,13 @@ export default function Events() {
                 className={classes.margin}
                 // variant='outlined'
                 variant='filled'
-                // NEED TO DECIDE BETWEEN OUTLINED AND FILLED @RG
               >
                 <InputLabel htmlFor='filled-adornment-amount'>
                   Search
                 </InputLabel>
                 {/* <OutlinedInput */}
                 <FilledInput
-                  id='outlined-adornment-amount'
+                  id='filled-adornment-amount'
                   value={searchItem}
                   placeholder='Fests, Events, Organizations...'
                   onChange={(e) => setSearchItem(e.target.value)}
@@ -94,7 +123,8 @@ export default function Events() {
                 />
               </FormControl>
             </Grid>
-            <Grid item>
+                <Grid className={classes.margin} container justify='space-between'>
+ <Grid item >
               <Grid container>
                 <Grid item>
                   <Selector
@@ -111,12 +141,55 @@ export default function Events() {
                     list={['ACM', 'IEEE', 'TMC']}
                   />
                 </Grid>
+                
               </Grid>
             </Grid>
+            <Grid item >
+              <Grid container>
+                <Grid item>
+                  <form className={classes.container} noValidate>
+      <TextField
+        id="date"
+        label="Start Date"
+        type="date"
+        defaultValue="2017-05-24"
+        className={classes.textField}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+    </form>
+                </Grid>
+                <Grid item>
+                  <form className={classes.container} noValidate>
+      <TextField
+        id="date"
+        label="End Date"
+        type="date"
+        defaultValue="2017-05-24"
+        className={classes.textField}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+    </form>
+                </Grid>
+                
+              </Grid>
+            </Grid>
+                  </Grid>
           </Grid>
         </Grid>
         <Grid item xs />
       </Grid>
+      <Grid container justify='space-evenly'>
+        <Grid item xs/>
+        <Grid item xs={9}>
+          <Paper className={classes.paper}/>
+        </Grid>
+        <Grid item xs/>
+        </Grid>
     </div>
+    // </MuiPickersUtilsProvider>
   );
 }

@@ -73,7 +73,7 @@ export default function Navbar() {
               <Grid container direction='column'>
                 <Grid item xs={2} />
                 <Grid item xs>
-                  <Grid container justifyContent='center' alignItems='center'>
+                  <Grid container justifyContent='center' alignItems='center' style={{paddingTop: '16px'}}>
                     <Grid item xs>
                       <Button
                         color='inherit'
