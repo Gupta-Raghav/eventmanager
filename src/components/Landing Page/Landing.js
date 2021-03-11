@@ -119,7 +119,7 @@ Start organizing you events with us!
               MUJ Event manager helps you find the events that are the best for
               you
     </Typography>
-            <button onClick={toggleOpen}>Register</button>
+            <button onClick={startLogin}>Register</button>
           </content>
         </article>
       </main>
