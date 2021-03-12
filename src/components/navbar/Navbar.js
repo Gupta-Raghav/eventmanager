@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
     paddingBottom: '1em',
   },
   menuButton: {
+    paddingTop: '4px',
     marginRight: '16px',
   },
   img: {
@@ -31,9 +32,20 @@ const useStyles = makeStyles(() => ({
     height: '3em',
     width: '14em',
   },
+  button: {
+    border: '0px',
+    color: 'black',
+    fontWeight: 'inherit',
+  },
   title: {
     color: 'black',
     flexGrow: 1,
+  },
+  navbarGrid: {
+    marginTop: '4px',
+    paddingTop: '4px',
+    // alignSelf: 'center',
+    // justifyContent: 'space-between',
   },
 }));
 const startLogOut = () => {
@@ -73,36 +85,41 @@ export default function Navbar() {
             <Grid item xs>
               <Grid container direction='column'>
                 <Grid item xs={2} />
-                <Grid item xs>
-                  <Grid container justifyContent='center' alignItems='center' style={{paddingTop: '16px'}}>
+                <Grid item xs className={classes.navbarGrid}>
+                  <Grid container justifyContent='center' alignItems='center'>
+                    <Grid item xs>
+                      <Button
+                        color='inherit'
+                        className={classes.button}
+                        style={{ boxShadow: '0px' }}
+                        onClick={startLogOut}
+                        disableElevation
+                      >
+                        ➕create event
+                      </Button>
+                    </Grid>
                     <Grid item xs>
                       <Button
                         color='inherit'
                         className={classes.button}
                         onClick={startLogOut}
+                        disableElevation
                       >
-                        Logout
+                        📅 Your events
                       </Button>
                     </Grid>
                     <Grid item xs>
                       <Button
+                        disableElevation
                         color='inherit'
                         className={classes.button}
-                        onClick={startLogOut}
                       >
-                        Logout
+                        📞 contact us
                       </Button>
                     </Grid>
-                    <Grid item xs>
-                      <Button
-                        color='inherit'
-                        className={classes.button}
-                      >Logout
-                      </Button>
-                    </Grid>
-                    <Grid item m  style={{paddingleft: '2px'}}>
+                    <Grid item m style={{ paddingleft: '2px' }}>
                       <a href='/profile'>
-                        <Avatar alt="Remy Sharp" src=""/>
+                        <Avatar alt='Remy Sharp' src='' />
                       </a>
                     </Grid>
                   </Grid>

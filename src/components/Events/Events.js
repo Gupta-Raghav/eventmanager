@@ -1,9 +1,9 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
 // import DateFnsUtils from '@date-io';
-import {EventCard} from './components/EventCard'
+import { EventCard } from './components/EventCard';
 import {
   makeStyles,
   Select,
@@ -38,7 +38,7 @@ import {
 import Navbar from '../navbar/Navbar';
 import './Events.css';
 import { UserContext } from '../providers/UserProvider';
-import AppState from '../../store/configureStore'
+import AppState from '../../store/configureStore';
 import { Redirect } from 'react-router-dom';
 import { firebase, googleAuthProvider, auth } from '../../firebase';
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles(() => ({
     marginRight: '8px',
     width: 200,
   },
-  paper:{
+  paper: {
     margin: '8px',
     width: '100%',
     height: '128px',
@@ -68,14 +68,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Events() {
-  const useSelector=((s)=> console.log(s))
+  const useSelector = (s) => console.log(s);
   const classes = useStyles();
   const user = useContext(UserContext);
   const history = useHistory();
   const [searchItem, setSearchItem] = useState('');
   const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
   const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
-   const handleDateChange = (date) => {
+  const handleDateChange = (date) => {
     setStartDate(date);
   };
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function Events() {
             <Grid item>
               <Typography className={classes.text}>
                 <a href='/upcoming'>
-                  <h2 >Upcoming Events</h2>
+                  <h2>Upcoming Events</h2>
                 </a>
               </Typography>
             </Grid>
@@ -130,73 +130,77 @@ export default function Events() {
                 />
               </FormControl>
             </Grid>
-                <Grid className={classes.margin} container justify='space-between'>
- <Grid item >
-              <Grid container>
-                <Grid item>
-                  <Selector
-                    searchItem={searchItem}
-                    setSearchItem={setSearchItem}
-                    list={['ACM', 'IEEE', 'TMC']}
-                  />
-                </Grid>
-                <Grid item>
-                  <Selector
-                    // TODO: set-up separate states for separate selectors
-                    searchItem={searchItem}
-                    setSearchItem={setSearchItem}
-                    list={['ACM', 'IEEE', 'TMC']}
-                  />
-                </Grid>
-                
-              </Grid>
-            </Grid>
-            <Grid item >
-              <Grid container>
-                <Grid item>
-                  <form className={classes.container} noValidate>
-      <TextField
-        id="date"
-        label="Start Date"
-        type="date"
-        defaultValue="2017-05-24"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
-                </Grid>
-                <Grid item>
-                  <form className={classes.container} noValidate>
-      <TextField
-        id="date"
-        label="End Date"
-        type="date"
-        defaultValue="2017-05-24"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
-                </Grid>
-                
-              </Grid>
-            </Grid>
+            <Grid className={classes.margin} container justify='space-between'>
+              <Grid item>
+                <Grid container>
+                  <Grid item>
+                    <Selector
+                      searchItem={searchItem}
+                      setSearchItem={setSearchItem}
+                      list={['ACM', 'IEEE', 'TMC']}
+                    />
                   </Grid>
+                  <Grid item>
+                    <Selector
+                      // TODO: set-up separate states for separate selectors
+                      searchItem={searchItem}
+                      setSearchItem={setSearchItem}
+                      list={['ACM', 'IEEE', 'TMC']}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container>
+                  <Grid item>
+                    <form className={classes.container} noValidate>
+                      <TextField
+                        id='date'
+                        label='Start Date'
+                        type='date'
+                        defaultValue='2017-05-24'
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </form>
+                  </Grid>
+                  <Grid item>
+                    <form className={classes.container} noValidate>
+                      <TextField
+                        id='date'
+                        label='End Date'
+                        type='date'
+                        defaultValue='2017-05-24'
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </form>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs />
       </Grid>
-      <Grid container justify='space-evenly'>
-        <Grid item xs/>
+      <Grid container justify='space-evenly' style={{ paddingTop: '16px' }}>
+        <Grid item xs />
         <Grid item xs={9}>
-          {/* <Paper className={classes.paper}/> */}
-          <EventCard />
+          <Grid container direction='column' spacing={2}>
+            <Grid item>
+              <EventCard />
+            </Grid>
+            <Grid item>
+              <EventCard />
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs/>
-        </Grid>
+        <Grid item xs />
+      </Grid>
     </div>
     // </MuiPickersUtilsProvider>
   );
