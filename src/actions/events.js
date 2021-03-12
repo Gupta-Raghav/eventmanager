@@ -1,4 +1,5 @@
 import database from '../firebase';
+import events from '../Selectors/events';
 
 //ADD EVENT
 export const addEvent = (event) => ({

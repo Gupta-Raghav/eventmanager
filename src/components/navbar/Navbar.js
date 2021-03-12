@@ -10,6 +10,7 @@ import {
   AppBar,
   Divider,
   Toolbar,
+  Avatar,
 } from '@material-ui/core';
 import logo from './mujlogo.png';
 import './navbar.css';
@@ -96,19 +97,13 @@ export default function Navbar() {
                       <Button
                         color='inherit'
                         className={classes.button}
-                        onClick={startLogOut}
-                      >
-                        Logout
+                      >Logout
                       </Button>
                     </Grid>
-                    <Grid item xs>
-                      <Button
-                        color='inherit'
-                        className={classes.button}
-                        onClick={startLogOut}
-                      >
-                        Logout
-                      </Button>
+                    <Grid item m  style={{paddingleft: '2px'}}>
+                      <a href='/profile'>
+                        <Avatar alt="Remy Sharp" src=""/>
+                      </a>
                     </Grid>
                   </Grid>
                 </Grid>

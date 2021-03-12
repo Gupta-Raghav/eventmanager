@@ -1,7 +1,9 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
+import {useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
 // import DateFnsUtils from '@date-io';
+import {EventCard} from './components/EventCard'
 import {
   makeStyles,
   Select,
@@ -9,6 +11,9 @@ import {
   Modal,
   Backdrop,
   Fade,
+  Card,
+  CardContent,
+  CardMedia,
   Typography,
   Grid,
   InputLabel,
@@ -33,6 +38,7 @@ import {
 import Navbar from '../navbar/Navbar';
 import './Events.css';
 import { UserContext } from '../providers/UserProvider';
+import AppState from '../../store/configureStore'
 import { Redirect } from 'react-router-dom';
 import { firebase, googleAuthProvider, auth } from '../../firebase';
 
@@ -62,6 +68,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Events() {
+  const useSelector=((s)=> console.log(s))
   const classes = useStyles();
   const user = useContext(UserContext);
   const history = useHistory();
@@ -185,7 +192,8 @@ export default function Events() {
       <Grid container justify='space-evenly'>
         <Grid item xs/>
         <Grid item xs={9}>
-          <Paper className={classes.paper}/>
+          {/* <Paper className={classes.paper}/> */}
+          <EventCard />
         </Grid>
         <Grid item xs/>
         </Grid>

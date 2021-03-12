@@ -7,6 +7,7 @@ import Events from '../components/Events/Events';
 import NotFoundPage from '../components/NotFoundPage/NotFoundPage';
 import UserProvider from '../components/providers/UserProvider';
 import UpcomingEvents from '../components/Events/UpcomingEvents';
+import Profile from '../components/Profile/profile';
 export const history = createHistory();
 const AppRouter = () => (
   <UserProvider>
@@ -17,6 +18,7 @@ const AppRouter = () => (
           <Route path='/home' component={Dashboard} />
           <Route path='/events' component={Events} />
           <Route path='/upcoming' component={UpcomingEvents} />
+          <Route path='/profile' component={Profile} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
