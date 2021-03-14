@@ -15,7 +15,7 @@ import {
 import logo from './mujlogo.png';
 import './navbar.css';
 import UserProvider, { UserContext } from '../providers/UserProvider';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { auth } from '../../firebase';
 const useStyles = makeStyles(() => ({
   root: {
@@ -48,6 +48,8 @@ const useStyles = makeStyles(() => ({
     // justifyContent: 'space-between',
   },
 }));
+
+
 const startLogOut = () => {
   auth
     .signOut()
@@ -62,7 +64,6 @@ export default function Navbar() {
   const classes = useStyles();
   const user = useContext(UserContext);
   const [redirect, setRedirect] = useState(null);
-
   useEffect(() => {
     if (!user) {
       setRedirect('/');
@@ -88,25 +89,25 @@ export default function Navbar() {
                 <Grid item xs className={classes.navbarGrid}>
                   <Grid container justifyContent='center' alignItems='center'>
                     <Grid item xs>
-                      <Button
+                      <a href='/createEvent'><Button
                         color='inherit'
                         className={classes.button}
                         style={{ boxShadow: '0px' }}
-                        onClick={startLogOut}
                         disableElevation
                       >
                         ➕create event
                       </Button>
+                      </a>
                     </Grid>
                     <Grid item xs>
-                      <Button
+                     <a href='/yourEvent'> <Button
                         color='inherit'
                         className={classes.button}
-                        onClick={startLogOut}
                         disableElevation
                       >
                         📅 Your events
                       </Button>
+                      </a>
                     </Grid>
                     <Grid item xs>
                       <Button

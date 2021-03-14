@@ -1,6 +1,6 @@
 import React from 'react';
 import createHistory from 'history/createBrowserHistory';
-import { Router, Switch, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Landing from '../components/Landing Page/Landing';
 import Dashboard from '../components/Dashboard/dashboard';
 import Events from '../components/Events/Events';
@@ -8,6 +8,8 @@ import NotFoundPage from '../components/NotFoundPage/NotFoundPage';
 import UserProvider from '../components/providers/UserProvider';
 import UpcomingEvents from '../components/Events/UpcomingEvents';
 import Profile from '../components/Profile/profile';
+import CreateEventForm from '../components/CreateEventForm/EventForm';
+import YourEvents from '../components/YourEvents/YourEvents';
 export const history = createHistory();
 const AppRouter = () => (
   <UserProvider>
@@ -18,6 +20,8 @@ const AppRouter = () => (
           <Route path='/home' component={Dashboard} />
           <Route path='/events' component={Events} />
           <Route path='/upcoming' component={UpcomingEvents} />
+          <Router path='/createEvent' component={CreateEventForm}/>
+          <Router path='/yourEvent' component={YourEvents}/>
           <Route path='/profile' component={Profile} />
           <Route component={NotFoundPage} />
         </Switch>
