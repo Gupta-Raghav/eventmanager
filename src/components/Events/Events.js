@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
 // import DateFnsUtils from '@date-io';
 import { EventCard } from './components/EventCard';
+import { Filters } from './components/Filters';
 import {
   makeStyles,
   Select,
@@ -64,6 +65,9 @@ const useStyles = makeStyles(() => ({
   margin: {
     margin: '8px',
   },
+  date: {
+    padding: '8px',
+  },
   text: { color: '#95461E', fontFamily: 'Montserrat, sans-serif' },
 }));
 
@@ -107,10 +111,11 @@ export default function Events() {
               <Typography>CAROUSEL GOES HERE </Typography>
             </Grid>
             <Divider />
+            <Grid item />
             <Grid item>
               <FormControl
                 fullWidth
-                className={classes.margin}
+                // className={classes.margin}
                 // variant='outlined'
                 variant='filled'
               >
@@ -130,7 +135,12 @@ export default function Events() {
                 />
               </FormControl>
             </Grid>
-            <Grid className={classes.margin} container justify='space-between'>
+            {/* <Filters /> */}
+            <Grid
+              // className={classes.margin}
+              container
+              justify='space-between'
+            >
               <Grid item>
                 <Grid container>
                   <Grid item>
@@ -153,7 +163,10 @@ export default function Events() {
               <Grid item>
                 <Grid container>
                   <Grid item>
-                    <form className={classes.container} noValidate>
+                    <form
+                      className={`${classes.container} ${classes.date}`}
+                      noValidate
+                    >
                       <TextField
                         id='date'
                         label='Start Date'
@@ -167,7 +180,10 @@ export default function Events() {
                     </form>
                   </Grid>
                   <Grid item>
-                    <form className={classes.container} noValidate>
+                    <form
+                      className={`${classes.container} ${classes.date}`}
+                      noValidate
+                    >
                       <TextField
                         id='date'
                         label='End Date'

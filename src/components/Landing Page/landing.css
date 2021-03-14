@@ -122,12 +122,12 @@ a:hover {
     margin-top: 4em;
   }
 
-  button {
+  /* button {
     margin-top: 2em;
     margin-bottom: 5em;
     width: 60%;
     margin-left: 20%;
-  }
+  } */
 }
 
 @media only screen and (max-width: 425px) {
@@ -151,10 +151,10 @@ a:hover {
     font-size: 16.5px;
   }
 
-  button {
+  /* button {
     width: 70%;
     margin-left: 15%;
-  }
+  } */
   .landing_body {
     background-size: 100% auto;
   }
