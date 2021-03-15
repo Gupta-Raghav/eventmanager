@@ -8,25 +8,36 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Selector({ searchItem, setSearchItem, list }) {
+export default function Selector({
+  searchItem,
+  setSearchItem,
+  list,
+  placeholder,
+}) {
   const classes = useStyles();
   return (
     <div>
       <FormControl variant='filled' className={classes.selector}>
-        <InputLabel htmlFor='filled-org-native-simple'>Club</InputLabel>
+        <InputLabel htmlFor='filled-org-native-simple'>
+          {placeholder}
+        </InputLabel>
         <Select
           native
           value={searchItem}
-          onChange={(e) => setSearchItem(e.target.value)}
+          onChange={(e) => {
+            setSearchItem(e.target.value);
+            console.log(e.target.name);
+          }}
           inputProps={{
-            name: 'club',
+            name: placeholder,
             id: 'filled-org-native-simple',
           }}
         >
           <option aria-label='None' value='' />
-          {list.map((value, index) => {
-            return <option value={index}>{value}</option>;
-          })}
+          {list &&
+            list.map((value, index) => {
+              return <option value={index}>{value}</option>;
+            })}
         </Select>
       </FormControl>
     </div>

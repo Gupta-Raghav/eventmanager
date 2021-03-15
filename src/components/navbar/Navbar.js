@@ -49,7 +49,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-
 const startLogOut = () => {
   auth
     .signOut()
@@ -89,24 +88,27 @@ export default function Navbar() {
                 <Grid item xs className={classes.navbarGrid}>
                   <Grid container justifyContent='center' alignItems='center'>
                     <Grid item xs>
-                      <a href='/createEvent'><Button
-                        color='inherit'
-                        className={classes.button}
-                        style={{ boxShadow: '0px' }}
-                        disableElevation
-                      >
-                        ➕create event
-                      </Button>
+                      <a href='/createevent'>
+                        <Button
+                          color='inherit'
+                          className={classes.button}
+                          style={{ boxShadow: '0px' }}
+                          disableElevation
+                        >
+                          ➕create event
+                        </Button>
                       </a>
                     </Grid>
                     <Grid item xs>
-                     <a href='/yourEvent'> <Button
-                        color='inherit'
-                        className={classes.button}
-                        disableElevation
-                      >
-                        📅 Your events
-                      </Button>
+                      <a href='/yourEvent'>
+                        {' '}
+                        <Button
+                          color='inherit'
+                          className={classes.button}
+                          disableElevation
+                        >
+                          📅 Your events
+                        </Button>
                       </a>
                     </Grid>
                     <Grid item xs>

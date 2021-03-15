@@ -31,6 +31,7 @@ import {
   Toolbar,
   FilledInput,
 } from '@material-ui/core';
+import { db } from '../../firebase';
 // import {
 //   MuiPickersUtilsProvider,
 //   KeyboardTimePicker,
@@ -72,6 +73,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Events() {
+  const [filters, setFilters] = useState([]);
   const useSelector = (s) => console.log(s);
   const classes = useStyles();
   const user = useContext(UserContext);
@@ -82,7 +84,18 @@ export default function Events() {
   const handleDateChange = (date) => {
     setStartDate(date);
   };
+  const fetchFilters = async () => {
+    const res = await db.collection('Clubs').get();
+    res.docs.forEach((item) => {
+      if (item.data()) {
+        //.forEach((filt) => setFilters([...filters, filt]));
+        setFilters(...filters, Object.values(item.data()));
+      }
+    });
+    console.log(filters);
+  };
   useEffect(() => {
+    fetchFilters();
     if (!user) {
       history.push('/');
     }
@@ -147,7 +160,8 @@ export default function Events() {
                     <Selector
                       searchItem={searchItem}
                       setSearchItem={setSearchItem}
-                      list={['ACM', 'IEEE', 'TMC']}
+                      list={filters}
+                      placeholder='Club'
                     />
                   </Grid>
                   <Grid item>
@@ -156,6 +170,7 @@ export default function Events() {
                       searchItem={searchItem}
                       setSearchItem={setSearchItem}
                       list={['ACM', 'IEEE', 'TMC']}
+                      placeholder='Type'
                     />
                   </Grid>
                 </Grid>

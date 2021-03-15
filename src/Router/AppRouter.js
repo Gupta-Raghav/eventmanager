@@ -18,8 +18,8 @@ const AppRouter = () => {
       'logged_in',
       firebase.auth().currentUser ? true : false
     );
-    console.log(firebase.auth().currentUser);
-  }, [firebase.auth().currentUser]);
+    // console.log(firebase.auth().currentUser);
+  }, []);
   return (
     <UserProvider>
       <Router history={history}>
@@ -29,8 +29,8 @@ const AppRouter = () => {
             <Route path='/home' component={Dashboard} />
             <Route path='/events' component={Events} />
             <Route path='/upcoming' component={UpcomingEvents} />
-            <Router path='/createEvent' component={CreateEventForm} />
-            <Router path='/yourEvent' component={YourEvents} />
+            <Route path='/createevent' component={CreateEventForm} />
+            <Route path='/yourEvent' component={YourEvents} />
             <Route path='/profile' component={Profile} />
             <Route component={NotFoundPage} />
           </Switch>
