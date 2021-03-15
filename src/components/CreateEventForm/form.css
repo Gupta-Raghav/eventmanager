@@ -1,0 +1,44 @@
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.text-input{
+    border: 1px solid #cacccd;
+    height:50px;
+    font-size: 1.8rem;
+    font-weight: 300;
+    padding:1.2rem;
+    margin-left: 100px;
+}
+.text-area{
+    border: 1px solid #cacccd;
+    height:100px;
+    font-size: 1.8rem;
+    font-weight: 300;
+    padding:1.2rem;
+    width: 87%;
+    margin-left: 100px;
+}
+.label{
+    margin-top: 10px;
+    margin-left: 100px;
+    margin-bottom: 0rem;
+    font-weight:bold;
+    font-family: Times, Times New Roman, Georgia, serif;
+}
+.heading {
+    text-align: center;
+    text-decoration: underline;
+}
+.upload{
+    margin-left: 50%; 
+    width: auto;
+}
+.form_left{
+    width: 50%; 
+    float: left;
+}
+.img_upload{
+    margin-left: 100px;
+    margin-top: 10px;
+}
