@@ -13,11 +13,16 @@ export const startAddEvent = (eventData={}) =>{
         const{
             name ='',
             description='',
-            amount = 0,
-            eventDate = 0,
-            venue =''
+            sponsor = '',
+            fees= 0,
+            startDate = 0,
+            endDate = 0,
+            venue ='',
+            prizeMoney = 0,
+            FCPermission = false,
+            DSWPermission =false
         } = eventData;
-        const event = {name, description,amount,eventDate,venue};
+        const event = {name, description,fees,eventDate,venue};
 
         return database.ref(`users/${uid}/events`).push(event).then((ref)=>{
             dispatch(addevent({

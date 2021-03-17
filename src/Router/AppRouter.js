@@ -32,6 +32,7 @@ const AppRouter = () => {
             <Route path='/createevent' component={CreateEventForm} />
             <Route path='/yourEvent' component={YourEvents} />
             <Route path='/profile' component={Profile} />
+            {/* <Route path='/preview' component={Profile} /> */}
             <Route component={NotFoundPage} />
           </Switch>
         </div>
