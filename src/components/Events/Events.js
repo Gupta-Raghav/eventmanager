@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
 // import DateFnsUtils from '@date-io';
-import { EventCard } from './components/EventCard';
+// import { EventCard } from './components/EventCard';
+import  EventCard  from './components/EventCard';
 import { Filters } from './components/Filters';
 import {
   makeStyles,
@@ -43,7 +44,8 @@ import { UserContext } from '../providers/UserProvider';
 import AppState from '../../store/configureStore';
 import { Redirect } from 'react-router-dom';
 import { firebase, googleAuthProvider, auth } from '../../firebase';
-
+import {startAddEvent} from '../../actions/events';
+import { useDispatch } from "react-redux";
 // TODO : https://material-ui.com/components/pickers/
 const useStyles = makeStyles(() => ({
   container: {
@@ -74,25 +76,27 @@ const useStyles = makeStyles(() => ({
 
 export default function Events() {
   const [filters, setFilters] = useState([]);
-  const useSelector = (s) => console.log(s);
   const classes = useStyles();
   const user = useContext(UserContext);
+  const dispatch = useDispatch();
   const history = useHistory();
+  const {events }= useSelector((s)=> s);
+  console.log(events)
   const [searchItem, setSearchItem] = useState('');
   const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
   const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
   const handleDateChange = (date) => {
     setStartDate(date);
   };
+  // todo: function naam badli
   const fetchFilters = async () => {
-    const res = await db.collection('Clubs').get();
+    const res = await db.collection(`Clubs/ACM/Events`).get();
     res.docs.forEach((item) => {
-      if (item.data()) {
-        //.forEach((filt) => setFilters([...filters, filt]));
-        setFilters(...filters, Object.values(item.data()));
+      const event = item.data()
+      if (event) {
+        dispatch(startAddEvent(event));
       }
     });
-    console.log(filters);
   };
   useEffect(() => {
     fetchFilters();
@@ -222,12 +226,12 @@ export default function Events() {
         <Grid item xs />
         <Grid item xs={9}>
           <Grid container direction='column' spacing={2}>
+            {events.map((event, index)=>{
+              return(
             <Grid item>
-              <EventCard />
-            </Grid>
-            <Grid item>
-              <EventCard />
-            </Grid>
+              <EventCard name={event.name} description={event.description}/>
+             </Grid>)
+            })}
           </Grid>
         </Grid>
         <Grid item xs />

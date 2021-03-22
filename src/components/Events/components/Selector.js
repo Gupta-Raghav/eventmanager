@@ -33,11 +33,11 @@ export default function Selector({
             id: 'filled-org-native-simple',
           }}
         >
-          <option aria-label='None' value='' />
-          {list &&
+          <option aria-label='None' value='brrr' />
+          {/* {list &&
             list.map((value, index) => {
               return <option value={index}>{value}</option>;
-            })}
+            })} */}
         </Select>
       </FormControl>
     </div>

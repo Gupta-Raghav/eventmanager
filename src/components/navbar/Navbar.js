@@ -77,9 +77,9 @@ export default function Navbar() {
         <Toolbar>
           <Grid container row justifyContent='space-between'>
             <Grid item xs>
-              <div className={classes.menuButton}>
+              <a href="/events" className={classes.menuButton}>
                 <img src={logo} className={classes.img} alt='logo' />
-              </div>
+              </a>
             </Grid>
             <Grid item xs />
             <Grid item xs>
@@ -116,8 +116,9 @@ export default function Navbar() {
                         disableElevation
                         color='inherit'
                         className={classes.button}
+                        onClick ={startLogOut}
                       >
-                        📞 contact us
+                        Logout
                       </Button>
                     </Grid>
                     <Grid item m style={{ paddingleft: '2px' }}>

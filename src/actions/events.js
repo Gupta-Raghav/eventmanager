@@ -1,5 +1,10 @@
+import recat from 'react';
 import database from '../firebase';
 import events from '../Selectors/events';
+// import {Dispatch} from 'redux';
+import eventReducer from '../Reducers/events'
+// import {useReducer}
+// import 
 
 //ADD EVENT
 export const addEvent = (event) => ({
@@ -7,30 +12,29 @@ export const addEvent = (event) => ({
     event    
 })
 
-export const startAddEvent = (eventData={}) =>{
-    return(dispatch,getState)=> {
-        const uid = getState().auth.uid;
+export const startAddEvent = (eventData={}) => (dispatch, getState)=> {
+  try{
         const{
             name ='',
             description='',
             sponsor = '',
             fees= 0,
-            startDate = 0,
-            endDate = 0,
+            eventDate = 0,
+            eventEndDate = 0,
             venue ='',
             prizeMoney = 0,
             FCPermission = false,
             DSWPermission =false
         } = eventData;
-        const event = {name, description,fees,eventDate,venue};
-
-        return database.ref(`users/${uid}/events`).push(event).then((ref)=>{
-            dispatch(addevent({
-                id :ref.key,
-                ...event
-            }))
+        const event = {name, description,fees,eventDate,venue,eventEndDate,prizeMoney,FCPermission,DSWPermission};
+        dispatch({
+          type:"ADD_EVENT",
+          event
         })
-    }
+
+  }catch(err){
+    console.log(err)
+  }
 }
 
 // EDIT_event
