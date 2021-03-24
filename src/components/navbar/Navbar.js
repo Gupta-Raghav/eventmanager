@@ -36,6 +36,7 @@ const useStyles = makeStyles(() => ({
     border: '0px',
     color: 'black',
     fontWeight: 'inherit',
+    textDecoration: 'none'
   },
   title: {
     color: 'black',
@@ -77,7 +78,7 @@ export default function Navbar() {
         <Toolbar>
           <Grid container row justifyContent='space-between'>
             <Grid item xs>
-              <a href="/events" className={classes.menuButton}>
+              <a href="/events" className={classes.menuButton} style={{textDecoration:"none"}}>
                 <img src={logo} className={classes.img} alt='logo' />
               </a>
             </Grid>

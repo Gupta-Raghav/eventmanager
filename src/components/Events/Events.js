@@ -44,7 +44,7 @@ import { UserContext } from '../providers/UserProvider';
 import AppState from '../../store/configureStore';
 import { Redirect } from 'react-router-dom';
 import { firebase, googleAuthProvider, auth } from '../../firebase';
-import {startAddEvent} from '../../actions/events';
+import {startAddEvent, addEventToStore} from '../../actions/events';
 import { useDispatch } from "react-redux";
 // TODO : https://material-ui.com/components/pickers/
 const useStyles = makeStyles(() => ({
@@ -93,17 +93,19 @@ export default function Events() {
     const res = await db.collection(`Clubs/ACM/Events`).get();
     res.docs.forEach((item) => {
       const event = item.data()
+      console.log()
       if (event) {
-        dispatch(startAddEvent(event));
+        dispatch(addEventToStore(event));
       }
     });
   };
+  // fetchFilters();
   useEffect(() => {
     fetchFilters();
-    if (!user) {
-      history.push('/');
-    }
-  }, [user, history]);
+    // if (!user) {
+    //   history.push('/');
+    // }
+  }, []);
   return (
     // <MuiPickersUtilsProvider >\
     <div
@@ -229,7 +231,7 @@ export default function Events() {
             {events.map((event, index)=>{
               return(
             <Grid item>
-              <EventCard name={event.name} description={event.description}/>
+              <EventCard name={event.title} description={event.description}/>
              </Grid>)
             })}
           </Grid>

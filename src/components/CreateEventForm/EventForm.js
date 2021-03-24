@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import Navbar from '../navbar/Navbar';
 import moment from "moment";
+import {useDispatch} from 'react-redux'
 import 'react-dates/initialize';
 import { SingleDatePicker } from "react-dates";
 import 'react-dates/lib/css/_datepicker.css';
+import {useHistory} from 'react-router-dom';
 import {Paper, Button,
 Typography,TextField, FormControl, Grid, makeStyles,
 Radio, RadioGroup, FormLabel, FormControlLabel} from '@material-ui/core';
 import './form.css'
+import {startAddEvent} from '../../actions/events';
 // import { NULL } from 'node-sass';
 
 const useStyles = makeStyles(()=>({
@@ -25,6 +28,9 @@ const CreateEventForm = () => {
   const [poster, setposter] = useState(null );
   const [toggle, settoggle] = useState(false);
   const [sponsorToggle, setsponsorToggle] = useState(false)
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   // todo: prize money; permissions
   const handleSubmit= () =>{
       const formData = {
@@ -38,10 +44,11 @@ const CreateEventForm = () => {
         toggle,
         sponsorToggle,
     }
-    console.log(formData);
+    dispatch(startAddEvent(formData));
+    history.push('/events');
   }
-  const onTitleChange = (e,title) => {
-    title = e.target.value;
+  const onTitleChange = (e) => {
+    const title = e.target.value;
     setTitle(title);
   };
   const onDescriptionChange = (e) => {
@@ -68,7 +75,7 @@ const CreateEventForm = () => {
   } 
   const handleonDateChange =(eventDate)=>{
       if(eventDate){
-          seteventDate(eventDate);
+          seteventDate(eventDate.toString());
       }  
 }
 const handleonFocusChange = ({focused} ) => {

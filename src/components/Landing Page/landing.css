@@ -71,7 +71,6 @@ button:hover {
 }
 a:hover {
   color: #9b7102;
-  border: 2px solid var(--magenta);
 }
 
 @media only screen and (max-width: 1024px) {

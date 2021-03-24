@@ -1,5 +1,6 @@
 import recat from 'react';
 import database from '../firebase';
+import {db} from '../firebase';
 import events from '../Selectors/events';
 // import {Dispatch} from 'redux';
 import eventReducer from '../Reducers/events'
@@ -7,29 +8,41 @@ import eventReducer from '../Reducers/events'
 // import 
 
 //ADD EVENT
-export const addEvent = (event) => ({
+export const addEvent = (event ) => (
+  {
     type : 'ADD_EVENT',
     event    
 })
-
+export const addEventToStore = (eventData={}) =>(dispatch, getState)=> {
+  try{
+      dispatch(addEvent({ 
+          ...eventData
+      }, dispatch))
+  }catch(err){
+    console.log(err)
+  }
+}
 export const startAddEvent = (eventData={}) => (dispatch, getState)=> {
   try{
         const{
-            name ='',
+            title='',
             description='',
             sponsor = '',
             fees= 0,
-            eventDate = 0,
-            eventEndDate = 0,
+            eventDate = '',
+            eventEndDate = '',
             venue ='',
             prizeMoney = 0,
             FCPermission = false,
             DSWPermission =false
         } = eventData;
-        const event = {name, description,fees,eventDate,venue,eventEndDate,prizeMoney,FCPermission,DSWPermission};
-        dispatch({
-          type:"ADD_EVENT",
-          event
+        // const event = {name, description,fees,eventDate,venue,eventEndDate,prizeMoney,FCPermission,DSWPermission};
+        const event = {title , description,fees,venue,prizeMoney,FCPermission,DSWPermission};
+        console.log(event) 
+        return db.collection(`Clubs/ACM/Events`).add(event).then((docRef)=>{
+          console.log(docRef);
+        }).catch((err)=>{
+          console.log(err);
         })
 
   }catch(err){
