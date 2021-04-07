@@ -10,6 +10,7 @@ import {
   AppBar,
   Divider,
   Toolbar,
+  CircularProgress,
   Avatar,
 } from '@material-ui/core';
 import logo from './mujlogo.png';
@@ -17,6 +18,7 @@ import './navbar.css';
 import UserProvider, { UserContext } from '../providers/UserProvider';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { auth } from '../../firebase';
+import { firebase } from './../../firebase';
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
@@ -36,7 +38,7 @@ const useStyles = makeStyles(() => ({
     border: '0px',
     color: 'black',
     fontWeight: 'inherit',
-    textDecoration: 'none'
+    textDecoration: 'none',
   },
   title: {
     color: 'black',
@@ -50,37 +52,45 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const startLogOut = () => {
-  auth
-    .signOut()
-    .then(() => {
-      console.log('logged out');
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-};
 export default function Navbar() {
   const classes = useStyles();
   const user = useContext(UserContext);
-  const [redirect, setRedirect] = useState(null);
-  useEffect(() => {
-    if (!user) {
-      setRedirect('/');
-    }
-  }, [user]);
-  if (redirect) {
-    <Redirect to={redirect} />;
-  }
+  const history = useHistory();
+  // if(user && user.email){
+  //   const userEmail = user.email;
+  // }
+  // const [redirect, setRedirect] = useState(null);
+  // useEffect(() => {
+  //   if (!user) {
+  //     setRedirect('/');
+  //   }
+  // }, [user]);
+  // if (redirect) {
+  //   <Redirect to={redirect} />;
+  // }
+  const startLogOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        history.push('/');
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
   return (
     <div className={classes.root}>
       <AppBar position='static' className='navbar'>
         <Toolbar>
           <Grid container row justifyContent='space-between'>
             <Grid item xs>
-              <a href="/events" className={classes.menuButton} style={{textDecoration:"none"}}>
+              <Link
+                to='/events'
+                className={classes.menuButton}
+                style={{ textDecoration: 'none' }}
+              >
                 <img src={logo} className={classes.img} alt='logo' />
-              </a>
+              </Link>
             </Grid>
             <Grid item xs />
             <Grid item xs>
@@ -88,20 +98,40 @@ export default function Navbar() {
                 <Grid item xs={2} />
                 <Grid item xs className={classes.navbarGrid}>
                   <Grid container justifyContent='center' alignItems='center'>
+                    {!user && (
+                      <Grid item xs>
+                        <CircularProgress className={classes.button} />
+                      </Grid>
+                    )}
+                    {user && user.email === 'karan1501mannan@gmail.com' ? (
+                      <Grid item xs>
+                        <Link to='/organizer'>
+                          <Button
+                            color='inherit'
+                            className={classes.button}
+                            style={{ boxShadow: '0px' }}
+                            disableElevation
+                          >
+                            organizers wala tab
+                          </Button>
+                        </Link>
+                      </Grid>
+                    ) : (
+                      <Grid item xs>
+                        <Link to='/createevent'>
+                          <Button
+                            color='inherit'
+                            className={classes.button}
+                            style={{ boxShadow: '0px' }}
+                            disableElevation
+                          >
+                            ➕create event
+                          </Button>
+                        </Link>
+                      </Grid>
+                    )}
                     <Grid item xs>
-                      <a href='/createevent'>
-                        <Button
-                          color='inherit'
-                          className={classes.button}
-                          style={{ boxShadow: '0px' }}
-                          disableElevation
-                        >
-                          ➕create event
-                        </Button>
-                      </a>
-                    </Grid>
-                    <Grid item xs>
-                      <a href='/yourEvent'>
+                      <Link to='/yourEvent'>
                         {' '}
                         <Button
                           color='inherit'
@@ -110,22 +140,22 @@ export default function Navbar() {
                         >
                           📅 Your events
                         </Button>
-                      </a>
+                      </Link>
                     </Grid>
                     <Grid item xs>
                       <Button
                         disableElevation
                         color='inherit'
                         className={classes.button}
-                        onClick ={startLogOut}
+                        onClick={startLogOut}
                       >
                         Logout
                       </Button>
                     </Grid>
                     <Grid item m style={{ paddingleft: '2px' }}>
-                      <a href='/profile'>
+                      <Link to='/profile'>
                         <Avatar alt='Remy Sharp' src='' />
-                      </a>
+                      </Link>
                     </Grid>
                   </Grid>
                 </Grid>

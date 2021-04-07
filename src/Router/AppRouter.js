@@ -1,4 +1,4 @@
-  import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import createHistory from 'history/createBrowserHistory';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Landing from '../components/Landing Page/Landing';
@@ -10,7 +10,10 @@ import UpcomingEvents from '../components/Events/UpcomingEvents';
 import Profile from '../components/Profile/profile';
 import CreateEventForm from '../components/CreateEventForm/EventForm';
 import YourEvents from '../components/YourEvents/YourEvents';
+import Organizers from '../components/Organizers/Organizers';
 import { firebase } from './../firebase';
+import PrivateRoute from './PrivateRoute';
+import OrganizersRoute from './OrganizersRoute';
 export const history = createHistory();
 const AppRouter = () => {
   useEffect(() => {
@@ -18,7 +21,6 @@ const AppRouter = () => {
       'logged_in',
       firebase.auth().currentUser ? true : false
     );
-    // console.log(firebase.auth().currentUser);
   }, []);
   return (
     <UserProvider>
@@ -26,12 +28,13 @@ const AppRouter = () => {
         <div>
           <Switch>
             <Route path='/' component={Landing} exact={true} />
-            <Route path='/home' component={Dashboard} />
-            <Route path='/events' component={Events} />
-            <Route path='/upcoming' component={UpcomingEvents} />
-            <Route path='/createevent' component={CreateEventForm} />
-            <Route path='/yourEvent' component={YourEvents} />
-            <Route path='/profile' component={Profile} />
+            <PrivateRoute path='/home' component={Dashboard} />
+            <PrivateRoute path='/events' component={Events} />
+            <PrivateRoute path='/upcoming' component={UpcomingEvents} />
+            <PrivateRoute path='/createevent' component={CreateEventForm} />
+            <PrivateRoute path='/yourEvent' component={YourEvents} />
+            <PrivateRoute path='/profile' component={Profile} />
+            <OrganizersRoute path='/organizer' component={Organizers} />
             {/* <Route path='/preview' component={Profile} /> */}
             <Route component={NotFoundPage} />
           </Switch>
