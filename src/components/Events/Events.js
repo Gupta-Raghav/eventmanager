@@ -46,6 +46,7 @@ import { Redirect } from 'react-router-dom';
 import { firebase, googleAuthProvider, auth } from '../../firebase';
 import {startAddEvent, addEventToStore} from '../../actions/events';
 import { useDispatch } from "react-redux";
+import {setTextFilter, sortByDate , sortByAmount, setStartDate,setEndDate} from '../../actions/filters';
 // TODO : https://material-ui.com/components/pickers/
 const useStyles = makeStyles(() => ({
   container: {
@@ -82,9 +83,13 @@ export default function Events() {
   const history = useHistory();
   const {events }= useSelector((s)=> s);
   console.log(events)
-  const [searchItem, setSearchItem] = useState('');
+  // const [searchItem, setSearchItem] = useState('');
   const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
   const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
+  const [searchItem, setSearchItem] = useState('');
+  // const filteredEvents = events.filter(ievent => {
+  //   return ievent.title.toLowerCase().indexOf(searchItem.toLowerCase()) !== -1;
+  // });
   const handleDateChange = (date) => {
     setStartDate(date);
   };
@@ -228,7 +233,7 @@ export default function Events() {
         <Grid item xs />
         <Grid item xs={9}>
           <Grid container direction='column' spacing={2}>
-            {events.map((event, index)=>{
+            {setTextFilter.map((event, index)=>{
               return(
             <Grid item>
               <EventCard name={event.title} description={event.description}/>

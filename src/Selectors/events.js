@@ -7,7 +7,7 @@ export default (events, { text, sortBy, startDate, endDate }) => {
     const eventDateMoment = moment(event.eventDate);
     const startDateMatch = startDate ? startDate.isSameOrBefore(eventDateMoment, 'day') : true;
     const endDateMatch = endDate ? endDate.isSameOrAfter(eventDateMoment, 'day') : true;
-    const textMatch = event.description.toLowerCase().includes(text.toLowerCase());
+    const textMatch = event.title.toLowerCase().indexOf(text.toLowerCase()) !== -1;
 
     return startDateMatch && endDateMatch && textMatch;
   }).sort((a, b) => {
