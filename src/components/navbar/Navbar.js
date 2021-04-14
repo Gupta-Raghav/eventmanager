@@ -112,7 +112,7 @@ export default function Navbar() {
                             style={{ boxShadow: '0px' }}
                             disableElevation
                           >
-                            organizers wala tab
+                            organizers tab
                           </Button>
                         </Link>
                       </Grid>

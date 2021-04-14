@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
-import  EventCard  from './components/EventCard';
+import EventCard from './components/EventCard';
 import { Filters } from './components/Filters';
 import {
   makeStyles,
@@ -44,9 +44,16 @@ import { UserContext } from '../providers/UserProvider';
 import AppState from '../../store/configureStore';
 import { Redirect } from 'react-router-dom';
 import { firebase, googleAuthProvider, auth } from '../../firebase';
-import {startAddEvent, addEventToStore} from '../../actions/events';
-import { useDispatch } from "react-redux";
-import {setTextFilter, sortByDate , sortByAmount, setStartDate,setEndDate} from '../../actions/filters';
+import { startAddEvent, addEventToStore } from '../../actions/events';
+import { useDispatch } from 'react-redux';
+import {
+  setTextFilter,
+  sortByDate,
+  sortByAmount,
+  setStartDate,
+  setEndDate,
+} from '../../actions/filters';
+import eventsFilter from '../../Selectors/events';
 // TODO : https://material-ui.com/components/pickers/
 const useStyles = makeStyles(() => ({
   container: {
@@ -81,12 +88,19 @@ export default function Events() {
   const user = useContext(UserContext);
   const dispatch = useDispatch();
   const history = useHistory();
-  const {events }= useSelector((s)=> s);
-  console.log(events)
+  const { events } = useSelector((s) => s);
+  const titles = events.map((e) => e.title);
   // const [searchItem, setSearchItem] = useState('');
   const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
   const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
   const [searchItem, setSearchItem] = useState('');
+  const filteredEvents = eventsFilter(
+    events,
+    searchItem,
+    'date',
+    startDate,
+    endDate
+  );
   // const filteredEvents = events.filter(ievent => {
   //   return ievent.title.toLowerCase().indexOf(searchItem.toLowerCase()) !== -1;
   // });
@@ -97,9 +111,8 @@ export default function Events() {
   const fetchFilters = async () => {
     const res = await db.collection(`Clubs/ACM/Events`).get();
     res.docs.forEach((item) => {
-      const event = item.data()
-      console.log()
-      if (event) {
+      const event = item.data();
+      if (event && !titles.includes(event.title)) {
         dispatch(addEventToStore(event));
       }
     });
@@ -233,11 +246,15 @@ export default function Events() {
         <Grid item xs />
         <Grid item xs={9}>
           <Grid container direction='column' spacing={2}>
-            {setTextFilter.map((event, index)=>{
-              return(
-            <Grid item>
-              <EventCard name={event.title} description={event.description}/>
-             </Grid>)
+            {filteredEvents.map((event, index) => {
+              return (
+                <Grid item>
+                  <EventCard
+                    name={event.title}
+                    description={event.description}
+                  />
+                </Grid>
+              );
             })}
           </Grid>
         </Grid>

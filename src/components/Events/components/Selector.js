@@ -26,7 +26,6 @@ export default function Selector({
           value={searchItem}
           onChange={(e) => {
             setSearchItem(e.target.value);
-            console.log(e.target.name);
           }}
           inputProps={{
             name: placeholder,

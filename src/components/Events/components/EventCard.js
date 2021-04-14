@@ -39,8 +39,7 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 0 auto',
   },
 }));
- const EventCard = ({name, description}) => {
-   console.log(name);
+const EventCard = ({ name, description }) => {
   const classes = useStyles();
   const isMobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
@@ -100,10 +99,7 @@ const useStyles = makeStyles((theme) => ({
           <Typography variant='h3'>
             <u>{name}</u>
           </Typography>
-          CSS FIX KARNA HAI
-          <Typography paragraph>
-            {description}
-          </Typography>
+          <Typography paragraph>{description}</Typography>
         </CardContent>
       </Collapse>
     </div>
