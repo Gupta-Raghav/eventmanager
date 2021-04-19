@@ -112,6 +112,7 @@ export default function Events() {
     const res = await db.collection(`Clubs/ACM/Events`).get();
     res.docs.forEach((item) => {
       const event = item.data();
+      console.log(event);
       if (event && !titles.includes(event.title)) {
         dispatch(addEventToStore(event));
       }
@@ -145,7 +146,7 @@ export default function Events() {
             </Grid>
             <Divider />
             <Grid item style={{ textAlign: 'center', padding: '5em 0em' }}>
-              <Typography>CAROUSEL GOES HERE </Typography>
+              <Typography>CAROUSEL </Typography>
             </Grid>
             <Divider />
             <Grid item />

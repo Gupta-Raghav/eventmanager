@@ -112,7 +112,7 @@ const Landing = (props) => {
           <content class='article_content'>
             {/* <h1 className="article_content_h1">Start organizing you events with us!</h1> */}
             <Typography variant='h2' style={{ fontWeight: '400' }}>
-              Start organizing you events with us!
+              Start organizing your events with us!
             </Typography>
             <Typography variant='h4' style={{ fontWeight: '50' }}>
               MUJ Event manager helps you find the events that are the best for

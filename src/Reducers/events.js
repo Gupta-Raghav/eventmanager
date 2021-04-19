@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 // events Reducer
 
 const eventsReducerDefaultState = [];
@@ -5,10 +6,7 @@ const eventsReducerDefaultState = [];
 export default (state = eventsReducerDefaultState, action) => {
   switch (action.type) {
     case 'ADD_EVENT':
-      return [
-        ...state,
-        action.event
-      ];
+      return [...state, action.event];
     case 'REMOVE_EVENT':
       return state.filter(({ id }) => id !== action.id);
     case 'EDIT_EVENT':
@@ -16,14 +14,15 @@ export default (state = eventsReducerDefaultState, action) => {
         if (event.id === action.id) {
           return {
             ...event,
-            ...action.updates
+            ...action.updates,
           };
         } else {
           return event;
-        };
+        }
       });
-      case 'SET_EVENTS':
-        return action.events;
+    case 'SET_EVENTS':
+      console.log(action.events);
+      return action.events;
     default:
       return state;
   }

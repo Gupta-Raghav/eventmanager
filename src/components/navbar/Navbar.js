@@ -112,7 +112,7 @@ export default function Navbar() {
                             style={{ boxShadow: '0px' }}
                             disableElevation
                           >
-                            organizers tab
+                            📇 organizer tab
                           </Button>
                         </Link>
                       </Grid>
@@ -149,7 +149,7 @@ export default function Navbar() {
                         className={classes.button}
                         onClick={startLogOut}
                       >
-                        Logout
+                        🚪 Logout
                       </Button>
                     </Grid>
                     <Grid item m style={{ paddingleft: '2px' }}>
