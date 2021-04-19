@@ -53,7 +53,8 @@ export const startAddEvent = (eventData = {}) => (dispatch, getState) => {
     };
     return db
       .collection(`Clubs/ACM/Events`)
-      .add(event)
+      .doc(title)
+      .set(event)
       .catch((err) => {
         console.log(err);
       });

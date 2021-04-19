@@ -110,6 +110,8 @@ export default function Events() {
   // todo: function naam badli
   const fetchFilters = async () => {
     const res = await db.collection(`Clubs/ACM/Events`).get();
+    const documents = await db.collection(`Clubs/ACM/Events`).doc().id;
+    console.log(documents);
     res.docs.forEach((item) => {
       const event = item.data();
       console.log(event);
