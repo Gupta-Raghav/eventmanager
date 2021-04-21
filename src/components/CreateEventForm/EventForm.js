@@ -59,13 +59,15 @@ const CreateEventForm = () => {
   const [title, setTitle] = useState('');
   const [description, setdescription] = useState('');
   const [amount, setamount] = useState(0);
-  const [venue, setvenue] = useState('TMA Pai');
+  const [venue, setvenue] = useState('Old Audi');
   const [eventDate, seteventDate] = useState(moment());
   const [calendarfocused, setcalendarfocused] = useState(false);
   const [type, settype] = useState('Technical');
   const [poster, setposter] = useState(null);
   const [toggle, settoggle] = useState(false);
   const [sponsorToggle, setsponsorToggle] = useState(false);
+  const [feeToggle, setFeeToggle] = useState(false);
+  const [sponsorshipamount, setsponsorshipAmount] = useState(0);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -93,11 +95,18 @@ const CreateEventForm = () => {
     const description = e.target.value;
     setdescription(description);
   };
-  const onFeesChange = (e) => {
+  const onAmountChange = (e) => {
     const amount = e.target.value;
 
-    if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
+    if (!amount || amount.match(/^(?:[0-9]\d*)(?:\.(?!.*000)\d+)?$/)) {
       setamount(amount);
+    }
+  };
+  const onSponsorshipAmountChange = (e) => {
+    const sponsorshipamount = e.target.value;
+
+    if (!sponsorshipamount || sponsorshipamount.match(/^(?:[1-9]\d*)(?:\.(?!.*000)\d+)?$/)) {
+      setsponsorshipAmount(sponsorshipamount);
     }
   };
   const onVenueChange = (e) => {
@@ -124,6 +133,9 @@ const CreateEventForm = () => {
   };
   const handelsponsorToggle = () => {
     setsponsorToggle(!sponsorToggle);
+  };
+  const handelFeeToggle = () => {
+    setFeeToggle(!feeToggle);
   };
   return (
     <div>
@@ -179,6 +191,44 @@ const CreateEventForm = () => {
                     className={classes.fields}
                   />
                 </FormControl>
+                <FormControl
+                  fullWidth
+                  variant='outlined'
+                  className={classes.formControl}
+                >
+                  <Typography variant='h6' className={classes.fieldHeaders}>
+                    Check the box if your event is paid
+                  </Typography>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={feeToggle}
+                        onChange={handelFeeToggle}
+                      />
+                    }
+                    label='paid event'
+                  />
+                </FormControl>
+                {feeToggle && (
+                  <>
+                    <FormControl
+                      fullWidth
+                      variant='outlined'
+                      className={classes.formControl}
+                    >
+                      <Typography variant='h5' className={classes.fieldHeaders}>
+                        Amount
+                      </Typography>
+                      <OutlinedInput
+                        id='Event-amount'
+                        placeholder='Registeration Fees'
+                        value={amount}
+                        onChange={onAmountChange}
+                        className={classes.fields}
+                      />
+                    </FormControl>
+                  </>
+                )}
                 <FormControl
                   fullWidth
                   variant='outlined'
@@ -294,6 +344,7 @@ const CreateEventForm = () => {
                     <MenuItem value='1AB hall'>1AB hall</MenuItem>
                   </Select>
                 </FormControl>
+                
                 <FormControl
                   fullWidth
                   variant='outlined'
@@ -341,8 +392,8 @@ const CreateEventForm = () => {
                       <OutlinedInput
                         id='sponsor-amount'
                         placeholder='amount'
-                        value={title}
-                        onChange={onTitleChange}
+                        value={sponsorshipamount}
+                        onChange={onSponsorshipAmountChange}
                         className={classes.fields}
                       />
                     </FormControl>
