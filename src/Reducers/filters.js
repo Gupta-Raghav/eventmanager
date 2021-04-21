@@ -35,6 +35,16 @@ export default (state = filtersReducerDefaultState, action) => {
         ...state,
         endDate: action.endDate
       };
+      case 'SET_TYPE':
+        return {
+          ...state,
+          category: action.category
+        };
+      case 'SET_CLUB':
+          return {
+            ...state,
+            club: action.club
+          };
     default:
       return state;
   }

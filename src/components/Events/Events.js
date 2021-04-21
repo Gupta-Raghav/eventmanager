@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
+import Selectevent from '../../Selectors/events'
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
 import EventCard from './components/EventCard';
@@ -54,6 +55,7 @@ import {
   setEndDate,
 } from '../../actions/filters';
 import eventsFilter from '../../Selectors/events';
+import ExpenselistFilters from './EventListFilters';
 // TODO : https://material-ui.com/components/pickers/
 const useStyles = makeStyles(() => ({
   container: {
@@ -88,7 +90,7 @@ export default function Events() {
   const user = useContext(UserContext);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { events } = useSelector((s) => s);
+  const events  = useSelector(state => Selectevent(state.events,state.filters));
   const titles = events.map((e) => e.title);
   // const [searchItem, setSearchItem] = useState('');
   const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
@@ -151,7 +153,7 @@ export default function Events() {
             </Grid>
             <Divider />
             <Grid item />
-            <Grid item>
+            {/* <Grid item>
               <FormControl
                 fullWidth
                 // className={classes.margin}
@@ -160,9 +162,9 @@ export default function Events() {
               >
                 <InputLabel htmlFor='filled-adornment-amount'>
                   Search
-                </InputLabel>
+                </InputLabel> */}
                 {/* <OutlinedInput */}
-                <FilledInput
+                {/* <FilledInput
                   id='filled-adornment-amount'
                   value={searchItem}
                   placeholder='Fests, Events, Organizations...'
@@ -173,9 +175,9 @@ export default function Events() {
                   labelWidth={60}
                 />
               </FormControl>
-            </Grid>
+            </Grid> */}
             {/* <Filters /> */}
-            <Grid
+            {/* <Grid
               // className={classes.margin}
               container
               justify='space-between'
@@ -239,27 +241,37 @@ export default function Events() {
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid> */}
+            <ExpenselistFilters/>
           </Grid>
         </Grid>
         <Grid item xs />
       </Grid>
       <Grid container justify='space-evenly' style={{ paddingTop: '16px' }}>
         <Grid item xs />
-        <Grid item xs={9}>
-          <Grid container direction='column' spacing={2}>
-            {filteredEvents.map((event, index) => {
-              return (
-                <Grid item>
-                  <EventCard
-                    name={event.title}
-                    description={event.description}
-                  />
-                </Grid>
-              );
-            })}
+        {
+          events.length === 0 ?(
+            <Grid item style={{ textAlign: 'center', padding: '5em 0em' }}>
+              <Typography>CAROUSEL </Typography>
+            </Grid>
+          ):(
+            <Grid item xs={9}>
+            <Grid container direction='column' spacing={2}>
+              {filteredEvents.map((event, index) => {
+                return (
+                  <Grid item>
+                    <EventCard
+                      name={event.title}
+                      description={event.description}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
           </Grid>
-        </Grid>
+          )
+        }
+        
         <Grid item xs />
       </Grid>
     </div>
