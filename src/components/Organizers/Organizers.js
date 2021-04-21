@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
+import { db } from '../../firebase';
 import {
   makeStyles,
   Select,
@@ -65,6 +66,10 @@ const useStyles = makeStyles(() => ({
 export default function Events() {
   const classes = useStyles();
   const { events } = useSelector((s) => s);
+  const handleDelete = (title) => {
+    db.collection(`Clubs/ACM/Events`).doc(title).delete();
+  };
+  useEffect(() => {}, [db]);
   return (
     // <MuiPickersUtilsProvider >\
     <div
@@ -120,6 +125,7 @@ export default function Events() {
                               <IconButton
                                 className={classes.buttons}
                                 aria-label='delete'
+                                onClick={() => handleDelete(event.title)}
                               >
                                 <ClearIcon style={{ color: 'red' }} />
                               </IconButton>
