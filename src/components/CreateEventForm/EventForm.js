@@ -14,17 +14,45 @@ import {
   FormControl,
   Grid,
   makeStyles,
+  Input,
+  Checkbox,
+  OutlinedInput,
   Radio,
   RadioGroup,
   FormLabel,
+  Select,
+  MenuItem,
   FormControlLabel,
+  InputLabel,
+  FormHelperText,
 } from '@material-ui/core';
 import './form.css';
+import hacks from '../../assets/hacks.jpeg';
 import { startAddEvent } from '../../actions/events';
 // import { NULL } from 'node-sass';
 
 const useStyles = makeStyles(() => ({
   root: {},
+  formPaper: {
+    margin: '8px 16px',
+    padding: '8px',
+  },
+  formContainer: {
+    padding: '8px',
+  },
+  formFields: {
+    padding: '0px 64px',
+    margin: '0px 32px',
+  },
+  formControl: {
+    marginTop: '8px',
+  },
+  fields: {
+    marginTop: '8px',
+  },
+  fieldHeaders: {
+    fontWeight: 500,
+  },
 }));
 const CreateEventForm = () => {
   const classes = useStyles();
@@ -100,179 +128,266 @@ const CreateEventForm = () => {
   return (
     <div>
       <Navbar />
-      <Typography variant='h4' className='heading'>
-        Create Event
-      </Typography>
-      <form onSubmit={handleOnSubmit}>
-        <div>
-          {/* <Grid container direction="row" justify='space-evenly' alignContent='center'>
-        <Grid item>
-          <Grid container direction='column' spacing={1}>
-            <Grid item>
-            <Typography>
-              Event name
-            </Typography>
-              </Grid >
-            <Grid item>
-              </Grid >
+      <Paper className={classes.formPaper} elevation='10'>
+        <Typography
+          variant='h4'
+          className='heading'
+          style={{ fontWeight: 500 }}
+        >
+          Create Event
+        </Typography>
+        <Grid
+          container
+          spacing={2}
+          direction='row'
+          justify='space-evenly'
+          className={classes.formContainer}
+        >
+          <Grid item xs>
+            <Grid container direction='column' className={classes.formFields}>
+              <Grid item xs>
+                <FormControl
+                  fullWidth
+                  variant='outlined'
+                  className={classes.formControl}
+                >
+                  <Typography variant='h5' className={classes.fieldHeaders}>
+                    Event Name
+                  </Typography>
+                  <OutlinedInput
+                    id='event-name'
+                    placeholder='Event title'
+                    value={title}
+                    onChange={onTitleChange}
+                    className={classes.fields}
+                  />
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  variant='outlined'
+                  className={classes.formControl}
+                >
+                  <Typography variant='h5' className={classes.fieldHeaders}>
+                    Event Description
+                  </Typography>
+                  <OutlinedInput
+                    id='event-description'
+                    placeholder='Description'
+                    value={description}
+                    multiline
+                    onChange={onDescriptionChange}
+                    className={classes.fields}
+                  />
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  variant='outlined'
+                  className={classes.formControl}
+                >
+                  <Typography variant='h5' className={classes.fieldHeaders}>
+                    Type
+                  </Typography>
+                  <RadioGroup row aria-label='type' name='type'>
+                    <FormControlLabel
+                      value='Technical'
+                      control={<Radio />}
+                      label='Technical'
+                      onChange={onTypeChange}
+                    />
+                    <FormControlLabel
+                      value='cultural'
+                      control={<Radio />}
+                      label='Cultural'
+                      onChange={onTypeChange}
+                    />
+                    <FormControlLabel
+                      value='department'
+                      control={<Radio />}
+                      label='Department'
+                      onChange={onTypeChange}
+                    />
+                    <FormControlLabel
+                      value='curricular'
+                      control={<Radio />}
+                      label='curricular'
+                      onChange={onTypeChange}
+                    />
+                    <FormControlLabel
+                      value='social'
+                      control={<Radio />}
+                      label='Social'
+                      onChange={onTypeChange}
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  variant='outlined'
+                  className={classes.formControl}
+                >
+                  <Typography variant='h5' className={classes.fieldHeaders}>
+                    Timings
+                  </Typography>
+                  <Grid container direction='row'>
+                    <Grid item xs>
+                      <TextField
+                        className={classes.fields}
+                        id='start-date'
+                        label='Start Date'
+                        type='date'
+                        defaultValue='01-01-2020'
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid>
+                    <Grid item xs>
+                      <TextField
+                        className={classes.fields}
+                        id='end-date'
+                        label='End Date'
+                        type='date'
+                        defaultValue='30-01-2020'
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container direction='row' style={{ paddingTop: '8px' }}>
+                    <Grid item xs>
+                      <TextField
+                        className={classes.fields}
+                        id='start-time'
+                        label='Start time'
+                        type='time'
+                        defaultValue='00:00'
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid>
+                    <Grid item xs>
+                      <TextField
+                        className={classes.fields}
+                        id='end-time'
+                        label='End time'
+                        type='time'
+                        defaultValue='23:59'
+                        InputLabelProps={{ shrink: true }}
+                      />
+                    </Grid>
+                  </Grid>
+                </FormControl>
+
+                <FormControl
+                  fullWidth
+                  variant='outlined'
+                  className={classes.formControl}
+                >
+                  <Typography variant='h5' className={classes.fieldHeaders}>
+                    Event Venue
+                  </Typography>
+                  <Select
+                    labelId='event-venue'
+                    id='event-venue'
+                    value={venue}
+                    onChange={onVenueChange}
+                  >
+                    <MenuItem value='Old Audi'>Old Auditorium</MenuItem>
+                    <MenuItem value='Sharda Pai'>Sharda Pai</MenuItem>
+                    <MenuItem defaultValue='TMA Pai'>TMA Pai</MenuItem>
+                    <MenuItem value='1AB hall'>1AB hall</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  variant='outlined'
+                  className={classes.formControl}
+                >
+                  <Typography variant='h6' className={classes.fieldHeaders}>
+                    Sponsorship
+                  </Typography>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={sponsorToggle}
+                        onChange={handelsponsorToggle}
+                      />
+                    }
+                    label='Sponsored'
+                  />
+                </FormControl>
+                {sponsorToggle && (
+                  <>
+                    <FormControl
+                      fullWidth
+                      variant='outlined'
+                      className={classes.formControl}
+                    >
+                      <Typography variant='h5' className={classes.fieldHeaders}>
+                        Sponsor's name
+                      </Typography>
+                      <OutlinedInput
+                        id='sponsor-name'
+                        placeholder='Name'
+                        value={title}
+                        onChange={onTitleChange}
+                        className={classes.fields}
+                      />
+                    </FormControl>
+                    <FormControl
+                      fullWidth
+                      variant='outlined'
+                      className={classes.formControl}
+                    >
+                      <Typography variant='h5' className={classes.fieldHeaders}>
+                        Amount
+                      </Typography>
+                      <OutlinedInput
+                        id='sponsor-amount'
+                        placeholder='amount'
+                        value={title}
+                        onChange={onTitleChange}
+                        className={classes.fields}
+                      />
+                    </FormControl>
+                  </>
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs>
+            <Grid container direction='column' alignItems='center' spacing={2}>
+              <Grid item style={{ padding: '8px 0px' }}>
+                <Button>Upload image</Button>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              direction='column'
+              style={{
+                backgroundImage:
+                  'url(https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png)',
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                height: '100%',
+                // paddingTop: '8px',
+              }}
+              alignItems='center'
+              spacing={2}
+            />
           </Grid>
         </Grid>
-        <Grid item>
-          2
+        <Grid container style={{ padding: '16px' }} spacing={2}>
+          <Grid item xs>
+            <Button
+              onClick={handleSubmit}
+              style={{
+                padding: '16px 0px',
+                alignSelf: 'center',
+                width: '100%',
+              }}
+            >
+              Create Event
+            </Button>
           </Grid>
-        </Grid> */}
-          <div class='form_left'>
-            <div class='form'>
-              <h2 class='label'>Event name</h2>
-              <input
-                type='text'
-                placeholder='Event Title'
-                class='text-input'
-                autoFocus
-                value={title}
-                onChange={onTitleChange}
-              />
-              <h2 class='label'>Event description</h2>
-              <input
-                type='text'
-                placeholder='Description'
-                class='text-area'
-                autoFocus
-                value={description}
-                onChange={onDescriptionChange}
-              />
-              <h2 class='label'>Choose the type of event</h2>
-              <select value={type} onChange={onTypeChange} class='selector'>
-                <option defaultValue='Technical'>Technical</option>
-                <option value='Cultural'>Cultural</option>
-                <option value='Department'>Department</option>
-              </select>
-              {/* <FormLabel component="legend" className='text-input'>Check the box if the event is paid</FormLabel>
-      <RadioGroup aria-label="gender" name="gender1" value='1'className='text-input' onChange={()=>{}}>
-        <FormControlLabel value="female" control={<Radio />} label="Check" />
-      </RadioGroup> */}
-              <br />
-              <div class='check'>
-                <h3>Check the box if the event is paid</h3>
-                <input type='checkbox' onChange={handeltoggle} value={toggle} />
-              </div>
-              {toggle && (
-                <div>
-                  {' '}
-                  <h2 class='label'>Fees</h2>
-                  <input
-                    type='text'
-                    placeholder='fees'
-                    class='text-input'
-                    autoFocus
-                    value={amount}
-                    onChange={onFeesChange}
-                  />
-                </div>
-              )}
-              <div class='date-time'>
-                <h2 class='label'>Event Start Date</h2>
-                <h2 class='label'>Event End Date</h2>
-                <h2 class='label'>Start Time</h2>
-                <h2 class='label'>End Time</h2>
-              </div>
-              <div class='date-time'>
-                <TextField
-                  id='date'
-                  label='Event Start Date'
-                  type='date'
-                  defaultValue='2017-05-24'
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  id='date'
-                  label='Event End Date'
-                  type='date'
-                  defaultValue='2017-05-24'
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  id='time'
-                  label='start time'
-                  type='time'
-                  defaultValue='07:30'
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    step: 300, // 5 min
-                  }}
-                />
-                <TextField
-                  id='time'
-                  label='end time'
-                  type='time'
-                  defaultValue='07:30'
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    step: 300, // 5 min
-                  }}
-                />
-                {/* <SingleDatePicker
-          date={eventDate}
-          onDateChange={handleonDateChange}
-          focused={calendarfocused}
-          onFocusChange={handleonFocusChange}
-          numberOfMonths={1}
-          isOutsideRange={() => false}
-        /> */}
-              </div>
-
-              <h2 class='label'>Pick the available venue for the event</h2>
-              <select value={venue} onChange={onVenueChange} class='selector'>
-                <option value='Old Audi'>Old Auditorium</option>
-                <option value='Sharda Pai'>Sharda Pai</option>
-                <option defaultValue='TMA Pai'>TMA Pai</option>
-                <option value='1AB hall'>1AB hall</option>
-              </select>
-              <br></br>
-              <div class='check'>
-                <h3>Do you have a Sponsor for the event</h3>
-                <input
-                  type='checkbox'
-                  onChange={handelsponsorToggle}
-                  value={sponsorToggle}
-                />
-                {sponsorToggle && (
-                  <div>
-                    <br />
-                    <h2 class='label'>Sponsor Details</h2>
-                    <input
-                      type='text'
-                      placeholder='Sponsor Name'
-                      class='text-input'
-                      autoFocus
-                      value={amount}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <div class='upload'>
-            <h2 class='label'>Upload the poster of your event</h2>
-            <input type='file' class='img_upload' />
-          </div>
-        </div>
-      </form>
-      <Button onClick={handleSubmit} style={{ padding: '1em', margin: '1em' }}>
-        Create Event
-      </Button>
+        </Grid>
+      </Paper>
     </div>
   );
 };

@@ -107,7 +107,6 @@ export default function Events() {
   const handleDateChange = (date) => {
     setStartDate(date);
   };
-  // todo: function naam badli
   const fetchFilters = async () => {
     const res = await db.collection(`Clubs/ACM/Events`).get();
     const documents = await db.collection(`Clubs/ACM/Events`).doc().id;
