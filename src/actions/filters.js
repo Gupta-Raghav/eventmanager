@@ -25,4 +25,11 @@ export const setTextFilter = (text = '') => ({
     type: 'SET_END_DATE',
     endDate
   });
-  
+  export const setType =(category) => ({
+    type :'SET_TYPE',
+    category
+  })
+  export const setClub = (club) => ({
+    type:'SET_CLUB',
+    club
+  })
