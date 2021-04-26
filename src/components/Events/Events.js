@@ -5,22 +5,15 @@ import Selector from './components/Selector';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
 import EventCard from './components/EventCard';
+import useIsMobile from '../../hooks/useIsMobile';
 import { Filters } from './components/Filters';
 import {
   makeStyles,
-  Select,
-  Button,
-  Modal,
-  Backdrop,
-  Fade,
-  Card,
-  CardContent,
-  CardMedia,
+  GridList,
+  GridListTile,
   Typography,
   Grid,
   InputLabel,
-  Paper,
-  AppBar,
   TextField,
   Accordion,
   AccordionDetails,
@@ -85,6 +78,7 @@ const useStyles = makeStyles(() => ({
 export default function Events() {
   const [filters, setFilters] = useState([]);
   const classes = useStyles();
+  const isMobile = useIsMobile();
   const user = useContext(UserContext);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -247,7 +241,7 @@ export default function Events() {
       <Grid container justify='space-evenly' style={{ paddingTop: '16px' }}>
         <Grid item xs />
         <Grid item xs={9}>
-          <Grid container direction='column' spacing={2}>
+          {/* <Grid container direction='row' spacing={2}>
             {filteredEvents.map((event, index) => {
               return (
                 <Grid item>
@@ -258,7 +252,19 @@ export default function Events() {
                 </Grid>
               );
             })}
-          </Grid>
+          </Grid> */}
+          <GridList cols={isMobile ? 1 : 3} cellHeight='auto' spacing={32}>
+            {filteredEvents.map((event, index) => {
+              return (
+                <GridListTile>
+                  <EventCard
+                    name={event.title}
+                    description={event.description}
+                  />
+                </GridListTile>
+              );
+            })}
+          </GridList>
         </Grid>
         <Grid item xs />
       </Grid>
