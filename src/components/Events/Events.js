@@ -1,4 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useCallback,
+  useContext,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
@@ -9,23 +15,19 @@ import EventCard from './components/EventCard';
 import useIsMobile from '../../hooks/useIsMobile';
 import { Filters } from './components/Filters';
 import {
+  Dialog,
+  AppBar,
+  Slide,
+  Toolbar,
   makeStyles,
   GridList,
+  IconButton,
   GridListTile,
   Typography,
   Grid,
-  InputLabel,
-  TextField,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Divider,
-  InputAdornment,
-  FormControl,
-  OutlinedInput,
-  Toolbar,
-  FilledInput,
 } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import { db } from '../../firebase';
 // import {
 //   MuiPickersUtilsProvider,
@@ -36,9 +38,7 @@ import Navbar from '../navbar/Navbar';
 import './Events.css';
 import { UserContext } from '../providers/UserProvider';
 import AppState from '../../store/configureStore';
-import { Redirect } from 'react-router-dom';
-import { firebase, googleAuthProvider, auth } from '../../firebase';
-import { startAddEvent, addEventToStore } from '../../actions/events';
+import { addEventToStore } from '../../actions/events';
 import { useDispatch } from 'react-redux';
 import {
   setTextFilter,
@@ -76,19 +76,21 @@ const useStyles = makeStyles(() => ({
   },
   text: { color: '#95461E', fontFamily: 'Montserrat, sans-serif' },
 }));
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
 export default function Events() {
+  // const user = useContext(UserContext);
+  // const history = useHistory();
+  // const [searchItem, setSearchItem] = useState('');
   const [filters, setFilters] = useState([]);
   const classes = useStyles();
   const isMobile = useIsMobile();
-  const user = useContext(UserContext);
   const dispatch = useDispatch();
-  const history = useHistory();
   const events = useSelector((state) =>
     Selectevent(state.events, state.filters)
   );
   const titles = events.map((e) => e.title);
-  // const [searchItem, setSearchItem] = useState('');
   const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
   const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
   const [searchItem, setSearchItem] = useState('');
@@ -108,22 +110,26 @@ export default function Events() {
   const fetchFilters = async () => {
     const res = await db.collection(`Clubs/ACM/Events`).get();
     const documents = await db.collection(`Clubs/ACM/Events`).doc().id;
-    console.log(documents);
     res.docs.forEach((item) => {
       const event = item.data();
-      console.log(event);
       if (event && !titles.includes(event.title)) {
         dispatch(addEventToStore(event));
       }
     });
   };
-  // fetchFilters();
   useEffect(() => {
     fetchFilters();
-    // if (!user) {
-    //   history.push('/');
-    // }
   }, []);
+  // callback for event sign up dialog
+  const dialogCallback = useCallback((name, description) => {
+    setDialog(true);
+    setDialogContent({ name, description });
+  }, []);
+  const [dialog, setDialog] = useState(false);
+  const [dialogContent, setDialogContent] = useState({
+    name: 'Title',
+    description: 'description',
+  });
   return (
     // <MuiPickersUtilsProvider >\
     <div
@@ -131,6 +137,40 @@ export default function Events() {
       className={classes.eventsbg}
       style={{ color: '#010101' }}
     >
+      <Dialog
+        fullscreen
+        open={dialog}
+        onClose={() => {
+          setDialog(false);
+        }}
+        TransitionComponent={Transition}
+      >
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              edge='start'
+              color='inherit'
+              onClick={() => {
+                setDialog(false);
+              }}
+              aria-label='close'
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant='h6' className={classes.title}>
+              Register
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Grid container direction='column'>
+          <Grid item>
+            <Typography>{dialogContent.name}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography>{dialogContent.description}</Typography>
+          </Grid>
+        </Grid>
+      </Dialog>
       <Navbar />
       <Grid container justify='space-evenly'>
         <Grid item xs />
@@ -149,95 +189,6 @@ export default function Events() {
             </Grid>
             <Divider />
             <Grid item />
-            {/* <Grid item>
-              <FormControl
-                fullWidth
-                // className={classes.margin}
-                // variant='outlined'
-                variant='filled'
-              >
-                <InputLabel htmlFor='filled-adornment-amount'>
-                  Search
-                </InputLabel> */}
-            {/* <OutlinedInput */}
-            {/* <FilledInput
-                  id='filled-adornment-amount'
-                  value={searchItem}
-                  placeholder='Fests, Events, Organizations...'
-                  onChange={(e) => setSearchItem(e.target.value)}
-                  startAdornment={
-                    <InputAdornment position='start'>:</InputAdornment>
-                  }
-                  labelWidth={60}
-                />
-              </FormControl>
-            </Grid> */}
-            {/* <Filters /> */}
-            {/* <Grid
-              // className={classes.margin}
-              container
-              justify='space-between'
-            >
-              <Grid item>
-                <Grid container>
-                  <Grid item>
-                    <Selector
-                      searchItem={searchItem}
-                      setSearchItem={setSearchItem}
-                      list={filters}
-                      placeholder='Club'
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Selector
-                      // TODO: set-up separate states for separate selectors
-                      searchItem={searchItem}
-                      setSearchItem={setSearchItem}
-                      list={['ACM', 'IEEE', 'TMC']}
-                      placeholder='Type'
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Grid container>
-                  <Grid item>
-                    <form
-                      className={`${classes.container} ${classes.date}`}
-                      noValidate
-                    >
-                      <TextField
-                        id='date'
-                        label='Start Date'
-                        type='date'
-                        defaultValue='2017-05-24'
-                        className={classes.textField}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </form>
-                  </Grid>
-                  <Grid item>
-                    <form
-                      className={`${classes.container} ${classes.date}`}
-                      noValidate
-                    >
-                      <TextField
-                        id='date'
-                        label='End Date'
-                        type='date'
-                        defaultValue='2017-05-24'
-                        className={classes.textField}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </form>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid> */}
             <ExpenselistFilters />
           </Grid>
         </Grid>
@@ -246,18 +197,6 @@ export default function Events() {
       <Grid container justify='space-evenly' style={{ paddingTop: '16px' }}>
         <Grid item xs />
         <Grid item xs={9}>
-          {/* <Grid container direction='row' spacing={2}>
-            {filteredEvents.map((event, index) => {
-              return (
-                <Grid item>
-                  <EventCard
-                    name={event.title}
-                    description={event.description}
-                  />
-                </Grid>
-              );
-            })}
-          </Grid> */}
           <GridList cols={isMobile ? 1 : 3} cellHeight='auto' spacing={32}>
             {filteredEvents.map((event, index) => {
               return (
@@ -265,6 +204,7 @@ export default function Events() {
                   <EventCard
                     name={event.title}
                     description={event.description}
+                    dialogCallback={dialogCallback}
                   />
                 </GridListTile>
               );

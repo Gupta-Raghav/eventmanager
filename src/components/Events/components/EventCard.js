@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import {
   makeStyles,
   Grid,
+  Button,
   Card,
   CardContent,
   CardMedia,
+  Dialog,
+  AppBar,
+  Slide,
+  Toolbar,
   Typography,
   IconButton,
   CardActions,
@@ -12,37 +17,15 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
 import useIsMobile from '../../../hooks/useIsMobile';
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     // display: 'flex',
-//     padding: '8px',
-//   },
-//   expand: {
-//     // maxWidth: 34,
-//     transform: 'rotate(0deg)',
-//     // marginLeft: 'auto',
-//     transition: theme.transitions.create('transform', {
-//       duration: theme.transitions.duration.shortest,
-//     }),
-//   },
-//   cover: {
-//     width: 151,
-//   },
-//   details: {
-//     display: 'flex',
-//     flexDirection: 'column',
-//   },
-//   expandOpen: {
-//     transform: 'rotate(180deg)',
-//   },
-//   content: {
-//     flex: '1 0 auto',
-//   },
-// }));
+import { DescriptionOutlined } from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+  },
+  appBar: {
+    position: 'relative',
   },
   cover: { height: '250px', overflow: 'hidden' },
   media: {
@@ -64,7 +47,10 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
 }));
-const EventCard = ({ name, description }) => {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
+const EventCard = ({ name, description, dialogCallback }) => {
   const classes = useStyles();
   const isMobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
@@ -99,7 +85,9 @@ const EventCard = ({ name, description }) => {
                 className={clsx(classes.expand, {
                   [classes.expandOpen]: expanded,
                 })}
-                onClick={handleExpandClick}
+                onClick={() => {
+                  dialogCallback(name, description);
+                }}
                 aria-expanded={expanded}
                 aria-label='show more'
               >
@@ -109,14 +97,14 @@ const EventCard = ({ name, description }) => {
           </Grid>
         </CardActions>
       </Card>
-      <Collapse in={expanded} timeout='auto'>
+      {/* <Collapse in={expanded} timeout='auto'>
         <CardContent>
           <Typography variant='h3'>
             <u>{name}</u>
           </Typography>
           <Typography paragraph>{description}</Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </div>
   );
 };

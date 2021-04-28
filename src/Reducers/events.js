@@ -21,7 +21,6 @@ export default (state = eventsReducerDefaultState, action) => {
         }
       });
     case 'SET_EVENTS':
-      console.log(action.events);
       return action.events;
     default:
       return state;

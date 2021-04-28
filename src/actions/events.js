@@ -14,7 +14,6 @@ export const addEvent = (event) => ({
 });
 export const addEventToStore = (eventData = {}) => (dispatch, getState) => {
   try {
-    console.log(eventData);
     dispatch(
       addEvent(
         {
