@@ -58,16 +58,18 @@ const CreateEventForm = () => {
   const classes = useStyles();
   const [title, setTitle] = useState('');
   const [description, setdescription] = useState('');
-  const [amount, setamount] = useState(0);
+  const [amount, setamount] = useState(null);
   const [venue, setvenue] = useState('Old Audi');
-  const [eventDate, seteventDate] = useState(moment());
-  const [calendarfocused, setcalendarfocused] = useState(false);
+  const [eventStartDate, seteventStartDate] = useState(moment());
+  const [eventEndDate, seteventEndDate] = useState(moment());
+  const [eventStartTime, setStartTime] = useState('00:00');
+  const [eventEndTime, setEndTime] = useState('23:59');
   const [type, settype] = useState('Technical');
   const [poster, setposter] = useState(null);
-  const [toggle, settoggle] = useState(false);
   const [sponsorToggle, setsponsorToggle] = useState(false);
+  const [sponsorName, setsponsorName] = useState('');
   const [feeToggle, setFeeToggle] = useState(false);
-  const [sponsorshipamount, setsponsorshipAmount] = useState(0);
+  const [sponsorshipamount, setsponsorshipAmount] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -77,23 +79,24 @@ const CreateEventForm = () => {
       title,
       description,
       amount,
+      eventStartTime,
+      eventEndTime,
       venue,
-      eventDate,
+      eventStartDate,
+      eventEndDate,
       type,
       poster,
-      toggle,
       sponsorToggle,
+      sponsorName,
     };
     dispatch(startAddEvent(formData));
     history.push('/events');
   };
   const onTitleChange = (e) => {
-    const title = e.target.value;
-    setTitle(title);
+    setTitle(e.target.value);
   };
   const onDescriptionChange = (e) => {
-    const description = e.target.value;
-    setdescription(description);
+    setdescription(e.target.value);
   };
   const onAmountChange = (e) => {
     const amount = e.target.value;
@@ -104,10 +107,7 @@ const CreateEventForm = () => {
   };
   const onSponsorshipAmountChange = (e) => {
     const sponsorshipamount = e.target.value;
-
-    if (!sponsorshipamount || sponsorshipamount.match(/^(?:[1-9]\d*)(?:\.(?!.*000)\d+)?$/)) {
-      setsponsorshipAmount(sponsorshipamount);
-    }
+    setsponsorshipAmount(sponsorshipamount);
   };
   const onVenueChange = (e) => {
     const venue = e.target.value;
@@ -117,25 +117,27 @@ const CreateEventForm = () => {
     const type = e.target.value;
     settype(type);
   };
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-  };
-  const handleonDateChange = (eventDate) => {
-    if (eventDate) {
-      seteventDate(eventDate.toString());
+  const handleonDateChange = (e) => {
+    if (e.target.id === 'end-date') {
+      seteventEndDate(e.target.value);
+    } else {
+      seteventStartDate(e.target.value);
     }
   };
-  const handleonFocusChange = ({ focused }) => {
-    setcalendarfocused(focused);
-  };
-  const handeltoggle = () => {
-    settoggle(!toggle);
-  };
   const handelsponsorToggle = () => {
+    setsponsorName('');
+    setsponsorshipAmount(0);
     setsponsorToggle(!sponsorToggle);
   };
   const handelFeeToggle = () => {
     setFeeToggle(!feeToggle);
+  };
+  const handleTimeChange = (e) => {
+    if (e.target.id === 'end-time') {
+      setStartTime(e.target.value);
+    } else {
+      setEndTime(e.target.value);
+    }
   };
   return (
     <div>
@@ -287,6 +289,7 @@ const CreateEventForm = () => {
                         type='date'
                         defaultValue='01-01-2020'
                         InputLabelProps={{ shrink: true }}
+                        onChange={handleonDateChange}
                       />
                     </Grid>
                     <Grid item xs>
@@ -297,6 +300,7 @@ const CreateEventForm = () => {
                         type='date'
                         defaultValue='30-01-2020'
                         InputLabelProps={{ shrink: true }}
+                        onChange={handleonDateChange}
                       />
                     </Grid>
                   </Grid>
@@ -309,6 +313,7 @@ const CreateEventForm = () => {
                         type='time'
                         defaultValue='00:00'
                         InputLabelProps={{ shrink: true }}
+                        onChange={handleTimeChange}
                       />
                     </Grid>
                     <Grid item xs>
@@ -319,6 +324,7 @@ const CreateEventForm = () => {
                         type='time'
                         defaultValue='23:59'
                         InputLabelProps={{ shrink: true }}
+                        onChange={handleTimeChange}
                       />
                     </Grid>
                   </Grid>
@@ -344,7 +350,7 @@ const CreateEventForm = () => {
                     <MenuItem value='1AB hall'>1AB hall</MenuItem>
                   </Select>
                 </FormControl>
-                
+
                 <FormControl
                   fullWidth
                   variant='outlined'
@@ -376,8 +382,10 @@ const CreateEventForm = () => {
                       <OutlinedInput
                         id='sponsor-name'
                         placeholder='Name'
-                        value={title}
-                        onChange={onTitleChange}
+                        value={sponsorName}
+                        onChange={(e) => {
+                          setsponsorName(e.target.value);
+                        }}
                         className={classes.fields}
                       />
                     </FormControl>
@@ -391,7 +399,7 @@ const CreateEventForm = () => {
                       </Typography>
                       <OutlinedInput
                         id='sponsor-amount'
-                        placeholder='amount'
+                        placeholder='Sponsorship amount'
                         value={sponsorshipamount}
                         onChange={onSponsorshipAmountChange}
                         className={classes.fields}
@@ -404,24 +412,41 @@ const CreateEventForm = () => {
           </Grid>
           <Grid item xs>
             <Grid container direction='column' alignItems='center' spacing={2}>
-              <Grid item style={{ padding: '8px 0px' }}>
+              <Grid item style={{ padding: '16px 0px' }}>
                 <Button>Upload image</Button>
               </Grid>
             </Grid>
-            <Grid
-              container
-              direction='column'
-              style={{
-                backgroundImage:
-                  'url(https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png)',
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                height: '100%',
-                // paddingTop: '8px',
-              }}
-              alignItems='center'
-              spacing={2}
-            />
+            <Grid item xs>
+              <Grid container direction='row'>
+                <Grid item xs />
+                <Grid item xs>
+                  <img
+                    src='https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png'
+                    alt='poster'
+                    style={{
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      height: '100vh',
+                    }}
+                  />
+                </Grid>
+                <Grid item xs />
+              </Grid>
+              {/* <Grid
+                container
+                direction='column'
+                style={{
+                  backgroundImage:
+                    'url(https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png)',
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  height: '100vh',
+                  // paddingTop: '8px',
+                }}
+                alignItems='center'
+                spacing={2}
+              /> */}
+            </Grid>
           </Grid>
         </Grid>
         <Grid container style={{ padding: '16px' }} spacing={2}>
