@@ -8,6 +8,7 @@ import React, {
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
+import EventRegistration from './components/EventRegistration';
 import Selectevent from '../../Selectors/events';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
@@ -26,6 +27,7 @@ import {
   Typography,
   Grid,
   Divider,
+  DialogContent,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { db } from '../../firebase';
@@ -73,6 +75,9 @@ const useStyles = makeStyles(() => ({
   },
   date: {
     padding: '8px',
+  },
+  appBar: {
+    position: 'relative',
   },
   text: { color: '#95461E', fontFamily: 'Montserrat, sans-serif' },
 }));
@@ -138,7 +143,7 @@ export default function Events() {
       style={{ color: '#010101' }}
     >
       <Dialog
-        fullscreen
+        fullScreen
         open={dialog}
         onClose={() => {
           setDialog(false);
@@ -150,6 +155,7 @@ export default function Events() {
             <IconButton
               edge='start'
               color='inherit'
+              style={{ width: 'auto', boxShadow: 'none' }}
               onClick={() => {
                 setDialog(false);
               }}
@@ -162,14 +168,9 @@ export default function Events() {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container direction='column'>
-          <Grid item>
-            <Typography>{dialogContent.name}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography>{dialogContent.description}</Typography>
-          </Grid>
-        </Grid>
+        {/* <DialogContent> */}
+        <EventRegistration content={dialogContent} />
+        {/* </DialogContent> */}
       </Dialog>
       <Navbar />
       <Grid container justify='space-evenly'>
