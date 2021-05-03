@@ -201,13 +201,13 @@ export default function Events() {
           <GridList cols={isMobile ? 1 : 3} cellHeight='auto' spacing={32}>
             {filteredEvents.map((event, index) => {
               return (
-                <GridListTile>
+                event.FCPermission ? (event.DSWPermission ? (<GridListTile>
                   <EventCard
                     name={event.title}
                     description={event.description}
                     dialogCallback={dialogCallback}
                   />
-                </GridListTile>
+                </GridListTile>) :(null)) : (null) 
               );
             })}
           </GridList>

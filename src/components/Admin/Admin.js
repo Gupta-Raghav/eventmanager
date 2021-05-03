@@ -66,8 +66,19 @@ const useStyles = makeStyles(() => ({
 export default function Events() {
   const classes = useStyles();
   const { events } = useSelector((s) => s);
-  const handleDelete = (title) => {
-    db.collection(`Clubs/ACM/Events`).doc(title).delete();
+  const history = useHistory();
+  const [showtoggle, setshowtoggle] = useState(true)
+  const handleApproval = (title) => {
+    db.collection(`Clubs/ACM/Events`).doc(title).update({
+      DSWPermission:true,
+    });
+    setshowtoggle(false);
+  };
+  const handleReject = (title) => {
+    db.collection(`Clubs/ACM/Events`).doc(title).update({
+      DSWPermission: false,
+    });
+    setshowtoggle(false);
   };
   useEffect(() => {}, [db]);
   return (
@@ -85,7 +96,7 @@ export default function Events() {
             <Grid item>
               <Typography className={classes.text}>
                 <a href='/upcoming'>
-                  <h2>Organizers Dashboard</h2>
+                  <h2>Admin's Dashboard</h2>
                 </a>
               </Typography>
             </Grid>
@@ -103,7 +114,7 @@ export default function Events() {
                   </TableHead>
                   <TableBody>
                     {events.map((event) => (
-                      <TableRow key={event.name}>
+                       event.FCPermission ?(event.DSWPermission ? (null) : (<TableRow key={event.name}>
                         <TableCell component='th' scope='row'>
                           {event.title}
                         </TableCell>
@@ -117,6 +128,7 @@ export default function Events() {
                                 disableElevation
                                 className={classes.buttons}
                                 aria-label='delete'
+                                onClick= {()=> handleApproval(event.title)}
                               >
                                 <CheckIcon style={{ color: 'green' }} />
                               </IconButton>
@@ -125,14 +137,14 @@ export default function Events() {
                               <IconButton
                                 className={classes.buttons}
                                 aria-label='delete'
-                                onClick={() => handleDelete(event.title)}
+                                onClick={() => handleReject(event.title)}
                               >
                                 <ClearIcon style={{ color: 'red' }} />
                               </IconButton>
                             </Grid>
                           </Grid>
                         </TableCell>
-                      </TableRow>
+                      </TableRow>) ):(null) 
                     ))}
                   </TableBody>
                 </Table>

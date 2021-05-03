@@ -10,10 +10,12 @@ import UpcomingEvents from '../components/Events/UpcomingEvents';
 import Profile from '../components/Profile/profile';
 import CreateEventForm from '../components/CreateEventForm/EventForm';
 import YourEvents from '../components/YourEvents/YourEvents';
-import Organizers from '../components/Organizers/Organizers';
+import Faculty from '../components/Faculty/Faculty';
+import Admin from '../components/Admin/Admin';
 import { firebase } from './../firebase';
 import PrivateRoute from './PrivateRoute';
-import OrganizersRoute from './OrganizersRoute';
+import FacultyRoute from './FacultyRoute';
+import AdminRoute from './AdminRoute';
 export const history = createHistory();
 const AppRouter = () => {
   useEffect(() => {
@@ -34,7 +36,8 @@ const AppRouter = () => {
             <PrivateRoute path='/createevent' component={CreateEventForm} />
             <PrivateRoute path='/yourEvent' component={YourEvents} />
             <PrivateRoute path='/profile' component={Profile} />
-            <OrganizersRoute path='/organizer' component={Organizers} />
+            <FacultyRoute path='/organizer' component={Faculty} />
+            <AdminRoute path='/admin' component={Admin} />
             {/* <Route path='/preview' component={Profile} /> */}
             <Route component={NotFoundPage} />
           </Switch>

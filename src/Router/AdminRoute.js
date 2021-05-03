@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { firebase } from '../firebase';
 
-const OrganizersRoute = ({ component: Component, user, ...rest }) => {
+const AdminsRoute = ({ component: Component, user, ...rest }) => {
   // const user = firebase.auth().currentUser;
   return (
     // Show the component only when the user is logged in
@@ -12,7 +12,7 @@ const OrganizersRoute = ({ component: Component, user, ...rest }) => {
       render={(props) =>
         // user && user.email === 'karan1501mannan@gmail.com' ? (
         firebase.auth().currentUser &&
-        firebase.auth().currentUser.email === 'karan1501mannan@gmail.com' ? (
+        firebase.auth().currentUser.email === 'karan1501mannan@gmail.com' || 'raghuweer23@gmail.com'? (
           <Component {...props} />
         ) : (
           <Redirect to='/' />
@@ -22,4 +22,4 @@ const OrganizersRoute = ({ component: Component, user, ...rest }) => {
   );
 };
 
-export default OrganizersRoute;
+export default AdminsRoute;
