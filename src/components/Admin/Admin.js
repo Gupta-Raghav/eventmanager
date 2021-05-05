@@ -67,10 +67,10 @@ export default function Events() {
   const classes = useStyles();
   const { events } = useSelector((s) => s);
   const history = useHistory();
-  const [showtoggle, setshowtoggle] = useState(true)
+  const [showtoggle, setshowtoggle] = useState(true);
   const handleApproval = (title) => {
     db.collection(`Clubs/ACM/Events`).doc(title).update({
-      DSWPermission:true,
+      DSWPermission: true,
     });
     setshowtoggle(false);
   };
@@ -113,39 +113,47 @@ export default function Events() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {events.map((event) => (
-                       event.FCPermission ?(event.DSWPermission ? (null) : (<TableRow key={event.name}>
-                        <TableCell component='th' scope='row'>
-                          {event.title}
-                        </TableCell>
-                        <TableCell align='right'>ACM</TableCell>
-                        <TableCell align='right'>14/01/21</TableCell>
-                        <TableCell align='right'>{event.venue}</TableCell>
-                        <TableCell align='right'>
-                          <Grid container direction='row' justify='flex-end'>
-                            <Grid item xs={2}>
-                              <IconButton
-                                disableElevation
-                                className={classes.buttons}
-                                aria-label='delete'
-                                onClick= {()=> handleApproval(event.title)}
+                    {events.map((event) =>
+                      event.FCPermission ? (
+                        event.DSWPermission ? null : (
+                          <TableRow key={event.name}>
+                            <TableCell component='th' scope='row'>
+                              {event.title}
+                            </TableCell>
+                            <TableCell align='right'>ACM</TableCell>
+                            <TableCell align='right'>14/01/21</TableCell>
+                            <TableCell align='right'>{event.venue}</TableCell>
+                            <TableCell align='right'>
+                              <Grid
+                                container
+                                direction='row'
+                                justify='flex-end'
                               >
-                                <CheckIcon style={{ color: 'green' }} />
-                              </IconButton>
-                            </Grid>
-                            <Grid item xs={2}>
-                              <IconButton
-                                className={classes.buttons}
-                                aria-label='delete'
-                                onClick={() => handleReject(event.title)}
-                              >
-                                <ClearIcon style={{ color: 'red' }} />
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                        </TableCell>
-                      </TableRow>) ):(null) 
-                    ))}
+                                <Grid item xs={2}>
+                                  <IconButton
+                                    disableElevation
+                                    className={classes.buttons}
+                                    aria-label='delete'
+                                    onClick={() => handleApproval(event.title)}
+                                  >
+                                    <CheckIcon style={{ color: 'green' }} />
+                                  </IconButton>
+                                </Grid>
+                                <Grid item xs={2}>
+                                  <IconButton
+                                    className={classes.buttons}
+                                    aria-label='delete'
+                                    onClick={() => handleReject(event.title)}
+                                  >
+                                    <ClearIcon style={{ color: 'red' }} />
+                                  </IconButton>
+                                </Grid>
+                              </Grid>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      ) : null
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>

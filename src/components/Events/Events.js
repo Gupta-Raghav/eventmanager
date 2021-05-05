@@ -91,11 +91,11 @@ export default function Events() {
   const [filters, setFilters] = useState([]);
   const classes = useStyles();
   const isMobile = useIsMobile();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const events = useSelector((state) =>
     Selectevent(state.events, state.filters)
   );
-  const titles = events.map((e) => e.title);
+  // const titles = events.map((e) => e.title);
   const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
   const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
   const [searchItem, setSearchItem] = useState('');
@@ -112,19 +112,18 @@ export default function Events() {
   const handleDateChange = (date) => {
     setStartDate(date);
   };
-  const fetchFilters = async () => {
-    const res = await db.collection(`Clubs/ACM/Events`).get();
-    const documents = await db.collection(`Clubs/ACM/Events`).doc().id;
-    res.docs.forEach((item) => {
-      const event = item.data();
-      if (event && !titles.includes(event.title)) {
-        dispatch(addEventToStore(event));
-      }
-    });
-  };
-  useEffect(() => {
-    fetchFilters();
-  }, []);
+  // const fetchEvents = async () => {
+  //   const res = await db.collection(`Clubs/ACM/Events`).get();
+  //   res.docs.forEach((item) => {
+  //     const event = item.data();
+  //     if (event && !titles.includes(event.title)) {
+  //       dispatch(addEventToStore(event));
+  //     }
+  //   });
+  // };
+  // useEffect(() => {
+  //   fetchEvents();
+  // }, []);
   // callback for event sign up dialog
   const dialogCallback = useCallback((name, description) => {
     setDialog(true);
@@ -200,15 +199,17 @@ export default function Events() {
         <Grid item xs={9}>
           <GridList cols={isMobile ? 1 : 3} cellHeight='auto' spacing={32}>
             {filteredEvents.map((event, index) => {
-              return (
-                event.FCPermission ? (event.DSWPermission ? (<GridListTile>
-                  <EventCard
-                    name={event.title}
-                    description={event.description}
-                    dialogCallback={dialogCallback}
-                  />
-                </GridListTile>) :(null)) : (null) 
-              );
+              return event.FCPermission ? (
+                event.DSWPermission ? (
+                  <GridListTile>
+                    <EventCard
+                      name={event.title}
+                      description={event.description}
+                      dialogCallback={dialogCallback}
+                    />
+                  </GridListTile>
+                ) : null
+              ) : null;
             })}
           </GridList>
         </Grid>

@@ -103,19 +103,34 @@ export default function Navbar() {
                         <CircularProgress className={classes.button} />
                       </Grid>
                     )}
-                    {user && user.email === 'karan1501mannan@gmail.com' ||'raghuweer23@gmail.com' ? (
-                      <Grid item xs>
-                        <Link to='/admin'>
-                          <Button
-                            color='inherit'
-                            className={classes.button}
-                            style={{ boxShadow: '0px' }}
-                            disableElevation
-                          >
-                            📇 organizer tab
-                          </Button>
-                        </Link>
-                      </Grid>
+                    {(user && user.email === 'karan1501mannan@gmail.com') ||
+                    'raghuweer23@gmail.com' ? (
+                      <>
+                        <Grid item xs>
+                          <Link to='/organizer'>
+                            <Button
+                              color='inherit'
+                              className={classes.button}
+                              style={{ boxShadow: '0px' }}
+                              disableElevation
+                            >
+                              📇 faculty tab
+                            </Button>
+                          </Link>
+                        </Grid>
+                        <Grid item xs>
+                          <Link to='/admin'>
+                            <Button
+                              color='inherit'
+                              className={classes.button}
+                              style={{ boxShadow: '0px' }}
+                              disableElevation
+                            >
+                              📇 organizer tab
+                            </Button>
+                          </Link>
+                        </Grid>
+                      </>
                     ) : (
                       <Grid item xs>
                         <Link to='/createevent'>

@@ -1,4 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  createContext,
+  useContext,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // import DateFnsUtils from '@date-io';
@@ -67,20 +73,28 @@ export default function Faculty() {
   const classes = useStyles();
   const { events } = useSelector((s) => s);
   const history = useHistory();
-  const [showToggle, setshowToggle] = useState(true)
-  const handleApproval = (title) => {
-    db.collection(`Clubs/ACM/Events`).doc(title).update({
-      FCPermission:true,
-    });
-    setshowToggle(false);
-  };
-  const handleReject = (title) => {
-    db.collection(`Clubs/ACM/Events`).doc(title).update({
-      FCPermission: false,
-    });
-    setshowToggle(false);
-  };
-  useEffect(() => {}, [db]);
+  const [showToggle, setshowToggle] = useState(true);
+  const handleApproval = useCallback(
+    (title) => {
+      console.log('approve');
+      db.collection(`Clubs/ACM/Events`).doc(title).update({
+        FCPermission: true,
+      });
+      setshowToggle(!showToggle);
+    },
+    [showToggle]
+  );
+  const handleReject = useCallback(
+    (title) => {
+      console.log('reject');
+      db.collection(`Clubs/ACM/Events`).doc(title).update({
+        FCPermission: false,
+      });
+      setshowToggle(!showToggle);
+    },
+    [showToggle]
+  );
+  useEffect(() => {}, [handleApproval, handleReject, events, showToggle]);
   return (
     // <MuiPickersUtilsProvider >\
     <div
@@ -113,39 +127,41 @@ export default function Faculty() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {events.map((event) => (
-                      event.FCPermission ? (null) :  (<TableRow key={event.name}>
-                        <TableCell component='th' scope='row'>
-                          {event.title}
-                        </TableCell>
-                        <TableCell align='right'>ACM</TableCell>
-                        <TableCell align='right'>{event.date}</TableCell>
-                        <TableCell align='right'>{event.venue}</TableCell>
-                        <TableCell align='right'>
-                          <Grid container direction='row' justify='flex-end'>
-                            <Grid item xs={2}>
-                              <IconButton
-                                disableElevation
-                                className={classes.buttons}
-                                aria-label='delete'
-                                onClick= {()=> handleApproval(event.title)}
-                              >
-                                <CheckIcon style={{ color: 'green' }} />
-                              </IconButton>
+                    {events.map((event) =>
+                      event.FCPermission ? null : (
+                        <TableRow key={event.name}>
+                          <TableCell component='th' scope='row'>
+                            {event.title}
+                          </TableCell>
+                          <TableCell align='right'>ACM</TableCell>
+                          <TableCell align='right'>{event.date}</TableCell>
+                          <TableCell align='right'>{event.venue}</TableCell>
+                          <TableCell align='right'>
+                            <Grid container direction='row' justify='flex-end'>
+                              <Grid item xs={2}>
+                                <IconButton
+                                  disableElevation
+                                  className={classes.buttons}
+                                  aria-label='delete'
+                                  onClick={() => handleApproval(event.title)}
+                                >
+                                  <CheckIcon style={{ color: 'green' }} />
+                                </IconButton>
+                              </Grid>
+                              <Grid item xs={2}>
+                                <IconButton
+                                  className={classes.buttons}
+                                  aria-label='delete'
+                                  onClick={() => handleReject(event.title)}
+                                >
+                                  <ClearIcon style={{ color: 'red' }} />
+                                </IconButton>
+                              </Grid>
                             </Grid>
-                            <Grid item xs={2}>
-                              <IconButton
-                                className={classes.buttons}
-                                aria-label='delete'
-                                onClick={() => handleReject(event.title)}
-                              >
-                                <ClearIcon style={{ color: 'red' }} />
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                        </TableCell>
-                      </TableRow>) 
-                    ))}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>

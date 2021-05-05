@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Landing from '../components/Landing Page/Landing';
@@ -16,8 +17,30 @@ import { firebase } from './../firebase';
 import PrivateRoute from './PrivateRoute';
 import FacultyRoute from './FacultyRoute';
 import AdminRoute from './AdminRoute';
+import Selectevent from '../Selectors/events';
+import { useDispatch } from 'react-redux';
+import { addEventToStore } from '../actions/events';
+import { db } from '../firebase';
 export const history = createHistory();
 const AppRouter = () => {
+  const dispatch = useDispatch();
+  const events = useSelector((state) =>
+    Selectevent(state.events, state.filters)
+  );
+  const titles = events.map((e) => e.title);
+  const fetchEvents = async () => {
+    const res = await db.collection(`Clubs/ACM/Events`).get();
+    res.docs.forEach((item) => {
+      const event = item.data();
+      if (event && !titles.includes(event.title)) {
+        dispatch(addEventToStore(event));
+      }
+    });
+  };
+  useEffect(() => {
+    fetchEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     localStorage.setItem(
       'logged_in',
