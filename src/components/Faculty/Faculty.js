@@ -5,7 +5,7 @@ import React, {
   createContext,
   useContext,
 } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
@@ -26,6 +26,7 @@ import {
   Paper,
   Icon,
 } from '@material-ui/core';
+import { addEventToStore } from '../../actions/events';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 // import {
@@ -71,37 +72,42 @@ const useStyles = makeStyles(() => ({
 
 export default function Faculty() {
   const classes = useStyles();
-  const { events } = useSelector((s) => s);
-  const history = useHistory();
+  var { events } = useSelector((s) => s);
+  console.log(events);
   const [showToggle, setshowToggle] = useState(true);
+  // const titles = events.map((e) => e.title);
+  const updateEvents = (title, value) => {
+    const eventIndex = events.findIndex((event) => event.title === title);
+    events[eventIndex].FCPermission = value;
+  };
   const handleApproval = useCallback(
     (title) => {
       console.log('approve');
+      updateEvents(title, true);
       db.collection(`Clubs/ACM/Events`).doc(title).update({
         FCPermission: true,
       });
       setshowToggle(!showToggle);
     },
-    [showToggle]
+    [updateEvents, showToggle]
   );
   const handleReject = useCallback(
     (title) => {
       console.log('reject');
+      updateEvents(title, false);
       db.collection(`Clubs/ACM/Events`).doc(title).update({
         FCPermission: false,
       });
       setshowToggle(!showToggle);
     },
-    [showToggle]
+    [updateEvents, showToggle]
   );
-  useEffect(() => {}, [handleApproval, handleReject, events, showToggle]);
+  useEffect(() => {
+    console.log('side effect');
+  }, [handleApproval, handleReject, events, showToggle]);
   return (
     // <MuiPickersUtilsProvider >\
-    <div
-      className='events'
-      className={classes.eventsbg}
-      style={{ color: '#010101' }}
-    >
+    <div className={classes.eventsbg} style={{ color: '#010101' }}>
       <Navbar />
       <Grid container justify='space-evenly'>
         <Grid item xs />

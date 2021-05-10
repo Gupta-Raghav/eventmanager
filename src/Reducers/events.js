@@ -11,7 +11,7 @@ export default (state = eventsReducerDefaultState, action) => {
       return state.filter(({ id }) => id !== action.id);
     case 'EDIT_EVENT':
       return state.map((event) => {
-        if (event.id === action.id) {
+        if (event.title === action.title) {
           return {
             ...event,
             ...action.updates,

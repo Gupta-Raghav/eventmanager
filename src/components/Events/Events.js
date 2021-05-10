@@ -136,11 +136,7 @@ export default function Events() {
   });
   return (
     // <MuiPickersUtilsProvider >\
-    <div
-      className='events'
-      className={classes.eventsbg}
-      style={{ color: '#010101' }}
-    >
+    <div className={classes.eventsbg} style={{ color: '#010101' }}>
       <Dialog
         fullScreen
         open={dialog}

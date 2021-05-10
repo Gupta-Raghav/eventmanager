@@ -1,5 +1,5 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
@@ -20,6 +20,7 @@ import {
   Paper,
   Icon,
 } from '@material-ui/core';
+import { addEventToStore, editevent } from '../../actions/events';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 // import {
@@ -28,6 +29,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 //   KeyboardDatePicker,
 // } from '@material-ui/pickers';
 import Navbar from '../navbar/Navbar';
+import useEvents from '../../hooks/useEvents';
 // TODO : https://material-ui.com/components/pickers/
 const useStyles = makeStyles(() => ({
   container: {
@@ -65,29 +67,51 @@ const useStyles = makeStyles(() => ({
 
 export default function Events() {
   const classes = useStyles();
-  const { events } = useSelector((s) => s);
+  const dispatch = useDispatch();
+  // const { events } = useSelector((s) => s);
+  var events = useEvents();
+  console.log(events);
+  const titles = events.map((e) => e.title);
   const history = useHistory();
   const [showtoggle, setshowtoggle] = useState(true);
-  const handleApproval = (title) => {
-    db.collection(`Clubs/ACM/Events`).doc(title).update({
-      DSWPermission: true,
+  const fetchEvents = useCallback(async () => {
+    const res = await db.collection(`Clubs/ACM/Events`).get();
+    res.docs.forEach((item) => {
+      const event = item.data();
+      if (event && !titles.includes(event.title)) {
+        dispatch(addEventToStore(event));
+      }
     });
-    setshowtoggle(false);
-  };
-  const handleReject = (title) => {
-    db.collection(`Clubs/ACM/Events`).doc(title).update({
-      DSWPermission: false,
-    });
-    setshowtoggle(false);
-  };
-  useEffect(() => {}, [db]);
+  }, [dispatch, titles]);
+  const handleApproval = useCallback(
+    (title) => {
+      db.collection(`Clubs/ACM/Events`).doc(title).update({
+        DSWPermission: true,
+      });
+      setshowtoggle(false);
+      dispatch(editevent(title, { DSWPermission: true }));
+      fetchEvents();
+    },
+    [dispatch, fetchEvents]
+  );
+
+  const handleReject = useCallback(
+    (title) => {
+      db.collection(`Clubs/ACM/Events`).doc(title).update({
+        DSWPermission: false,
+      });
+      setshowtoggle(false);
+      dispatch(editevent(title, { DSWPermission: false }));
+      fetchEvents();
+    },
+    [dispatch, fetchEvents]
+  );
+  useEffect(() => {
+    console.log(events);
+  }, [fetchEvents, handleApproval, handleReject, events]);
   return (
     // <MuiPickersUtilsProvider >\
-    <div
-      className='events'
-      className={classes.eventsbg}
-      style={{ color: '#010101' }}
-    >
+    <div className={classes.eventsbg} style={{ color: '#010101' }}>
       <Navbar />
       <Grid container justify='space-evenly'>
         <Grid item xs />

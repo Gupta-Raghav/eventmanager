@@ -76,19 +76,19 @@ export const startAddEvent = (eventData = {}) => (dispatch, getState) => {
 };
 
 // EDIT_event
-export const editevent = (id, updates) => ({
+export const editevent = (title, updates) => ({
   type: 'EDIT_EVENT',
-  id,
+  title,
   updates,
 });
-export const startEditevent = (id, updates) => {
+export const startEditevent = (id, updates, title) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
     return database
       .ref(`users/${uid}/events/${id}`)
       .update(updates)
       .then(() => {
-        dispatch(editevent(id, updates));
+        dispatch(editevent(title, updates));
       });
   };
 };
