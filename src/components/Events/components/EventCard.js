@@ -9,6 +9,7 @@ import {
   Dialog,
   AppBar,
   Slide,
+  Box,
   Toolbar,
   Typography,
   IconButton,
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
   },
-  cover: { height: '250px', overflow: 'hidden' },
+  cover: { height: '460px', overflow: 'hidden' },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
@@ -47,10 +48,8 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
 }));
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
-});
-const EventCard = ({ name, description, dialogCallback }) => {
+const EventCard = ({ name, description, poster, dialogCallback }) => {
+  // TODO : pass down date and other event items as props here. display as necessary
   const classes = useStyles();
   const isMobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
@@ -71,12 +70,18 @@ const EventCard = ({ name, description, dialogCallback }) => {
           </CardContent>
         </div>
         {!isMobile && (
-          <CardMedia
-            component='img'
-            className={classes.cover}
-            src='https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png'
-            title='Naya event brrrr'
-          />
+          <Box boxShadow={4}>
+            <CardMedia
+              component='img'
+              className={classes.cover}
+              src={
+                poster
+                  ? poster
+                  : 'https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png'
+              }
+              title='Naya event brrrr'
+            />
+          </Box>
         )}
         <CardActions disableSpacing>
           <Grid container justify='center' alignItems='center'>
@@ -97,14 +102,6 @@ const EventCard = ({ name, description, dialogCallback }) => {
           </Grid>
         </CardActions>
       </Card>
-      {/* <Collapse in={expanded} timeout='auto'>
-        <CardContent>
-          <Typography variant='h3'>
-            <u>{name}</u>
-          </Typography>
-          <Typography paragraph>{description}</Typography>
-        </CardContent>
-      </Collapse> */}
     </div>
   );
 };

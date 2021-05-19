@@ -103,8 +103,10 @@ export default function Navbar() {
                         <CircularProgress className={classes.button} />
                       </Grid>
                     )}
-                    {(user && user.email === 'karan1501mannan@gmail.com') ||
-                    'raghuweer23@gmail.com' ? (
+                    {user &&
+                    user.email ===
+                      ('karan1501mannan@gmail.com' ||
+                        'raghuweer23@gmail.com') ? (
                       <>
                         <Grid item xs>
                           <Link to='/organizer'>

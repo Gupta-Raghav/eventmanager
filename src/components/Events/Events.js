@@ -200,6 +200,7 @@ export default function Events() {
                   <GridListTile>
                     <EventCard
                       name={event.title}
+                      poster={event.poster}
                       description={event.description}
                       dialogCallback={dialogCallback}
                     />

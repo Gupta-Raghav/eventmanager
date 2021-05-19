@@ -139,6 +139,24 @@ const CreateEventForm = () => {
       setEndTime(e.target.value);
     }
   };
+  // from - https://stackoverflow.com/questions/36580196/reactjs-base64-file-upload
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const handleFileRead = async (event) => {
+    const file = event.target.files[0];
+    const base64 = await convertBase64(file);
+    setposter(base64);
+  };
   return (
     <div>
       <Navbar />
@@ -413,7 +431,25 @@ const CreateEventForm = () => {
           <Grid item xs>
             <Grid container direction='column' alignItems='center' spacing={2}>
               <Grid item style={{ padding: '16px 0px' }}>
-                <Button>Upload image</Button>
+                <Button type='file' component='label' variant='contained'>
+                  <Grid>
+                    <Typography display='block'>Upload image</Typography>
+                    <Typography
+                      style={{ textAlign: 'center' }}
+                      display='block'
+                      variant='caption'
+                    >
+                      760 x 1080
+                    </Typography>
+                  </Grid>
+                  <input
+                    onChange={(e) => handleFileRead(e)}
+                    type='file'
+                    name='poster'
+                    // style={{ display: 'none' }}
+                    hidden
+                  />
+                </Button>
               </Grid>
             </Grid>
             <Grid item xs>
@@ -421,7 +457,8 @@ const CreateEventForm = () => {
                 <Grid item xs />
                 <Grid item xs>
                   <img
-                    src='https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png'
+                    // src='https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png'
+                    src={poster}
                     alt='poster'
                     style={{
                       backgroundSize: 'contain',
