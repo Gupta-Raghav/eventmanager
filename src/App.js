@@ -17,4 +17,3 @@ const mapStateToProps = (state) => ({
   filters: state.filters,
 });
 export default connect(mapStateToProps)(App);
-// export default App;

@@ -1,24 +1,16 @@
-import React, {
-  useState,
-  useEffect,
-  createContext,
-  useCallback,
-  useContext,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import Selector from './components/Selector';
 import EventRegistration from './components/EventRegistration';
 import Selectevent from '../../Selectors/events';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
 import EventCard from './components/EventCard';
 import useIsMobile from '../../hooks/useIsMobile';
-import { Filters } from './components/Filters';
+// import { Filters } from './components/Filters';
 import {
   Dialog,
-  AppBar,
   Slide,
+  AppBar,
   Toolbar,
   makeStyles,
   GridList,
@@ -27,10 +19,9 @@ import {
   Typography,
   Grid,
   Divider,
-  DialogContent,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { db } from '../../firebase';
+// import { db } from '../../firebase';
 // import {
 //   MuiPickersUtilsProvider,
 //   KeyboardTimePicker,
@@ -38,17 +29,17 @@ import { db } from '../../firebase';
 // } from '@material-ui/pickers';
 import Navbar from '../navbar/Navbar';
 import './Events.css';
-import { UserContext } from '../providers/UserProvider';
-import AppState from '../../store/configureStore';
-import { addEventToStore } from '../../actions/events';
-import { useDispatch } from 'react-redux';
-import {
-  setTextFilter,
-  sortByDate,
-  sortByAmount,
-  setStartDate,
-  setEndDate,
-} from '../../actions/filters';
+// import { UserContext } from '../providers/UserProvider';
+// import AppState from '../../store/configureStore';
+// import { addEventToStore } from '../../actions/events';
+// import { useDispatch } from 'react-redux';
+// import {
+//   setTextFilter,
+//   sortByDate,
+//   sortByAmount,
+//   setStartDate,
+//   setEndDate,
+// } from '../../actions/filters';
 import eventsFilter from '../../Selectors/events';
 import ExpenselistFilters from './EventListFilters';
 // TODO : https://material-ui.com/components/pickers/

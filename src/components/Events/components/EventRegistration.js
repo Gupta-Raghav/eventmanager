@@ -2,20 +2,8 @@ import React from 'react';
 import {
   makeStyles,
   Grid,
-  List,
-  ListItem,
   Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Dialog,
-  AppBar,
-  Slide,
-  Toolbar,
   Typography,
-  IconButton,
-  CardActions,
-  Collapse,
   Divider,
 } from '@material-ui/core';
 const useStyles = makeStyles(() => ({

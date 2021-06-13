@@ -3,7 +3,6 @@ import Navbar from '../navbar/Navbar';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import 'react-dates/initialize';
-import { SingleDatePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import { useHistory } from 'react-router-dom';
 import {
@@ -14,22 +13,16 @@ import {
   FormControl,
   Grid,
   makeStyles,
-  Input,
   Checkbox,
   OutlinedInput,
   Radio,
   RadioGroup,
-  FormLabel,
   Select,
   MenuItem,
   FormControlLabel,
-  InputLabel,
-  FormHelperText,
 } from '@material-ui/core';
 import './form.css';
-import hacks from '../../assets/hacks.jpeg';
 import { startAddEvent } from '../../actions/events';
-// import { NULL } from 'node-sass';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -65,7 +58,9 @@ const CreateEventForm = () => {
   const [eventStartTime, setStartTime] = useState('00:00');
   const [eventEndTime, setEndTime] = useState('23:59');
   const [type, settype] = useState('Technical');
-  const [poster, setposter] = useState(null);
+  const [poster, setposter] = useState(
+    'https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png'
+  );
   const [sponsorToggle, setsponsorToggle] = useState(false);
   const [sponsorName, setsponsorName] = useState('');
   const [feeToggle, setFeeToggle] = useState(false);
