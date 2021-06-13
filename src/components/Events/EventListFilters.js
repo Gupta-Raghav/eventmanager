@@ -5,17 +5,14 @@ import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
 import { useStyles } from '@material-ui/pickers/views/Calendar/SlideTransition';
 import eventsFilter from '../../Selectors/events';
-<<<<<<< Updated upstream
-=======
-import {setTextFilter, sortByDate, setStartDate, setEndDate,setType} from '../../actions/filters'
-import MenuItem from '@material-ui/core/MenuItem';
->>>>>>> Stashed changes
 import {
   setTextFilter,
   sortByDate,
   setStartDate,
   setEndDate,
+  setType,
 } from '../../actions/filters';
+import MenuItem from '@material-ui/core/MenuItem';
 import {
   Grid,
   InputLabel,
@@ -34,25 +31,25 @@ const EventsListFilters = () => {
   const filters = useSelector((state) => state.filters);
   const events = useSelector((state) => state.events);
   const titles = events.map((e) => e.title);
-  // const [searchItem, setSearchItem] = useState('');
-  // const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
-  // const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
-  const [searchItem, setSearchItem] = useState('');
+  const [searchClub, setSearchClub] = useState('');
+  const [searchType, setSearchType] = useState('');
+  const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
+  const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
   const [type, settype] = useState('');
-  const filteredEvents = eventsFilter(
-    events,
-    searchItem,
-    'date'
-    // startDate,
-    // endDate
-  );
-<<<<<<< Updated upstream
+  // const filteredEvents = eventsFilter(
+  //   events,
+  //   searchClub,
+  //   searchType,
+  //   'date',
+  //   startDate,
+  //   endDate
+  // );
 
-  const onStartDateChange = ({ startDate }) => {
-    dispatch(setStartDate(startDate));
+  const onStartDateChange = (startDate) => {
+    setStartDate(startDate);
   };
-  const onEndDateChange = ({ endDate }) => {
-    dispatch(setEndDate(endDate));
+  const onEndDateChange = (endDate) => {
+    setEndDate(endDate);
   };
   return (
     <div>
@@ -85,18 +82,17 @@ const EventsListFilters = () => {
           <Grid container>
             <Grid item>
               <Selector
-                searchItem={searchItem}
-                setSearchItem={setSearchItem}
-                list={filters}
+                searchItem={searchClub}
+                setSearchItem={setSearchClub}
+                list={['ACM', 'IEEE', 'TMC']}
                 placeholder='Club'
               />
             </Grid>
             <Grid item>
               <Selector
-                // TODO: set-up separate states for separate selectors
-                searchItem={searchItem}
-                setSearchItem={setSearchItem}
-                list={['ACM', 'IEEE', 'TMC']}
+                searchItem={searchType}
+                setSearchItem={setSearchType}
+                list={['Technical', 'Department', 'Curricular', 'Social']}
                 placeholder='Type'
               />
             </Grid>
@@ -108,25 +104,6 @@ const EventsListFilters = () => {
               <form
                 className={`${classes.container} ${classes.date}`}
                 noValidate
-=======
-  
-  
-    const onStartDateChange =({startDate}) =>{
-      dispatch(setStartDate(startDate));
-    }
-    const onEndDateChange =({endDate}) => {
-      dispatch(setEndDate(endDate))
-    }
-    const types = ['Technical', 'Cultural', 'Department','curricular', 'social'];
-    return (
-        <div>
-             <Grid item>
-              <FormControl
-                fullWidth
-                // className={classes.margin}
-                // variant='outlined'
-                variant='filled'
->>>>>>> Stashed changes
               >
                 <TextField
                   id='date'
@@ -135,14 +112,13 @@ const EventsListFilters = () => {
                   defaultValue='2017-05-24'
                   className={classes.textField}
                   value={filters.startDate}
-                  onChange={onStartDateChange}
+                  onChange={(e) => onStartDateChange(e)}
                   InputLabelProps={{
                     shrink: true,
                   }}
                 />
               </form>
             </Grid>
-<<<<<<< Updated upstream
             <Grid item>
               <form
                 className={`${classes.container} ${classes.date}`}
@@ -155,7 +131,7 @@ const EventsListFilters = () => {
                   defaultValue='2017-05-24'
                   className={classes.textField}
                   value={filters.endDate}
-                  onChange={onEndDateChange}
+                  onChange={(e) => onEndDateChange(e)}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -168,88 +144,4 @@ const EventsListFilters = () => {
     </div>
   );
 };
-=======
-            {/* <Filters /> */}
-            <Grid
-              // className={classes.margin}
-              container
-              justify='space-between'
-            >
-              <Grid item>
-                <Grid container>
-                  <Grid item>
-                  <InputLabel id="demo-mutiple-name-label">Club </InputLabel>
-                    <Select
-                      searchItem={searchItem}
-                      list={filters}
-                      placeholder='Club'
-                    />
-                  </Grid>
-                  <Grid item>
-                  <InputLabel id="demo-mutiple-name-label">Type</InputLabel>
-                    
-                    <Select
-                      // TODO: set-up separate states for separate selectors
-                      searchItem={searchItem}
-                      value= {filters.type}
-                      onChange={(e)=> dispatch(setType(e.target.value))}
-                      setSearchItem={setSearchItem}
-                      labelWidth={20}
-                    >
-                      {types.map((type) => (
-                        <MenuItem key={type} value={type}>
-                          {type}
-                        </MenuItem>
-                      ))}
-                      </Select>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Grid container>
-                  <Grid item>
-                    <form
-                      className={`${classes.container} ${classes.date}`}
-                      noValidate
-                    >
-                      <TextField
-                        id='date'
-                        label='Start Date'
-                        type='date'
-                        defaultValue='2017-05-24'
-                        className={classes.textField}
-                        value ={filters.startDate}
-                        onChange={onStartDateChange}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </form>
-                  </Grid>
-                  <Grid item>
-                    <form
-                      className={`${classes.container} ${classes.date}`}
-                      noValidate
-                    >
-                      <TextField
-                        id='date'
-                        label='End Date'
-                        type='date'
-                        defaultValue='2017-05-24'
-                        className={classes.textField}
-                        value ={filters.endDate}
-                        onChange={onEndDateChange}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </form>
-                  </Grid>
-                  </Grid>
-              </Grid>
-            </Grid>        
-        </div>
-    )
-}
->>>>>>> Stashed changes
 export default EventsListFilters;

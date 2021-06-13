@@ -1,5 +1,11 @@
 import React from 'react';
-import { makeStyles, Select, InputLabel, FormControl } from '@material-ui/core';
+import {
+  makeStyles,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   selector: {
@@ -15,6 +21,7 @@ export default function Selector({
   placeholder,
 }) {
   const classes = useStyles();
+  console.log(list, searchItem);
   return (
     <div>
       <FormControl variant='filled' className={classes.selector}>
@@ -22,7 +29,7 @@ export default function Selector({
           {placeholder}
         </InputLabel>
         <Select
-          native
+          // native
           value={searchItem}
           onChange={(e) => {
             setSearchItem(e.target.value);
@@ -32,11 +39,12 @@ export default function Selector({
             id: 'filled-org-native-simple',
           }}
         >
-          <option aria-label='None' value='brrr' />
-          {/* {list &&
-            list.map((value, index) => {
-              return <option value={index}>{value}</option>;
-            })} */}
+          {list.map((item, index) => (
+            <MenuItem value={item}>{item}</MenuItem>
+          ))}
+          {/* <MenuItem value='ACM'>ACM</MenuItem>
+          <MenuItem value='ACM'>IEEE</MenuItem>
+          <MenuItem value='ACM'>TMC</MenuItem> */}
         </Select>
       </FormControl>
     </div>
