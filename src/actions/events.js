@@ -48,6 +48,7 @@ export const startAddEvent =
         prizeMoney = 0,
         FCPermission = false,
         FCRejected = false,
+        DSWRejected = false,
         DSWPermission = false,
       } = eventData;
       // const event = {name, description,fees,eventDate,venue,eventEndDate,prizeMoney,FCPermission,DSWPermission};
@@ -68,6 +69,7 @@ export const startAddEvent =
         FCPermission,
         FCRejected,
         DSWPermission,
+        DSWRejected,
       };
       return db
         .collection(`Clubs/ACM/Events`)

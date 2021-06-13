@@ -48,7 +48,13 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
 }));
-const EventCard = ({ name, description, poster, dialogCallback }) => {
+const EventCard = ({
+  name,
+  description,
+  poster,
+  eventObject,
+  dialogCallback,
+}) => {
   // TODO : pass down date and other event items as props here. display as necessary
   const classes = useStyles();
   const isMobile = useIsMobile();
@@ -91,7 +97,7 @@ const EventCard = ({ name, description, poster, dialogCallback }) => {
                   [classes.expandOpen]: expanded,
                 })}
                 onClick={() => {
-                  dialogCallback(name, description);
+                  dialogCallback(eventObject);
                 }}
                 aria-expanded={expanded}
                 aria-label='show more'

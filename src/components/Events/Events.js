@@ -116,10 +116,37 @@ export default function Events() {
   //   fetchEvents();
   // }, []);
   // callback for event sign up dialog
-  const dialogCallback = useCallback((name, description) => {
-    setDialog(true);
-    setDialogContent({ name, description });
-  }, []);
+  const dialogCallback = useCallback(
+    ({
+      title,
+      description,
+      eventStartTime,
+      eventStartDate,
+      eventEndDate,
+      eventEndTime,
+      type,
+      venue,
+      sponsorToggle,
+      sponsorName,
+      amount,
+    }) => {
+      setDialog(true);
+      setDialogContent({
+        title,
+        description,
+        eventStartDate,
+        eventStartTime,
+        eventEndDate,
+        eventEndTime,
+        type,
+        venue,
+        sponsorToggle,
+        sponsorName,
+        amount,
+      });
+    },
+    []
+  );
   const [dialog, setDialog] = useState(false);
   const [dialogContent, setDialogContent] = useState({
     name: 'Title',
@@ -193,6 +220,7 @@ export default function Events() {
                       name={event.title}
                       poster={event.poster}
                       description={event.description}
+                      eventObject={event}
                       dialogCallback={dialogCallback}
                     />
                   </GridListTile>

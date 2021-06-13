@@ -98,8 +98,33 @@ export default function Faculty() {
     [events]
   );
   const handleDialog = (event) => {
+    const {
+      title,
+      description,
+      eventStartDate,
+      eventStartTime,
+      eventEndDate,
+      eventEndTime,
+      type,
+      venue,
+      sponsorToggle,
+      sponsorName,
+      amount,
+    } = event;
     setDialog(!dialog);
-    setDialogContent({ name: event.title, description: event.description });
+    setDialogContent({
+      title,
+      description,
+      eventStartDate,
+      eventStartTime,
+      eventEndDate,
+      eventEndTime,
+      type,
+      venue,
+      sponsorToggle,
+      sponsorName,
+      amount,
+    });
   };
   const handleApproval = useCallback(
     (title) => {
@@ -193,7 +218,9 @@ export default function Faculty() {
                             {event.title}
                           </TableCell>
                           <TableCell align='right'>ACM</TableCell>
-                          <TableCell align='right'>{event.date}</TableCell>
+                          <TableCell align='right'>
+                            {event.eventStartDate}
+                          </TableCell>
                           <TableCell align='right'>{event.venue}</TableCell>
                           <TableCell align='right'>
                             <Grid container direction='row' justify='flex-end'>

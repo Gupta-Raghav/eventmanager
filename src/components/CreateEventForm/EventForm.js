@@ -359,7 +359,7 @@ const CreateEventForm = () => {
                   >
                     <MenuItem value='Old Audi'>Old Auditorium</MenuItem>
                     <MenuItem value='Sharda Pai'>Sharda Pai</MenuItem>
-                    <MenuItem defaultValue='TMA Pai'>TMA Pai</MenuItem>
+                    <MenuItem value='TMA Pai'>TMA Pai</MenuItem>
                     <MenuItem value='1AB hall'>1AB hall</MenuItem>
                   </Select>
                 </FormControl>

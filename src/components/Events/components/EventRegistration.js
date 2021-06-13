@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
 export default function EventRegistration({ content }) {
   /* ADD A LOADER HERE IN CASE CONTENT.PROPERTY ISNT AVAILABLE */
   const classes = useStyles();
+  console.log(content);
   return (
     <Grid container direction='row' className={classes.mainGrid}>
       <Grid item xs={1} />
@@ -26,7 +27,7 @@ export default function EventRegistration({ content }) {
           style={{ paddingBottom: '32px' }}
         >
           <Grid item>
-            <Typography variant='h2'>{content.name}</Typography>
+            <Typography variant='h2'>{content.title}</Typography>
           </Grid>
           <Grid item>
             <Divider />
@@ -45,7 +46,10 @@ export default function EventRegistration({ content }) {
                 <Typography variant='h4'>Contact details: </Typography>
               </Grid>
               <Grid item>
-                <Typography variant='body1'>{content.description} </Typography>
+                <Typography variant='body1'>
+                  Event manager : +919876543210
+                </Typography>
+                <Typography variant='body1'>eventmanager@gmail.com</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -57,12 +61,14 @@ export default function EventRegistration({ content }) {
               </Grid>
               <Grid item>
                 <Typography variant='body1'>
-                  <b>Fees:</b> 1200/-
+                  <b>Fees:</b>{' '}
+                  {content.amount === null ? 'Free' : content.amount}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography variant='body1'>
-                  <b>Date:</b> 10/05/2021 - 17/05/2021
+                  <b>Date:</b> {content.eventStartDate} to{' '}
+                  {content.eventEndDate}
                 </Typography>
               </Grid>
               <Grid item>
@@ -75,7 +81,13 @@ export default function EventRegistration({ content }) {
               </Grid>
               <Grid item>
                 <Typography>
-                  All decisions made by the judges are final
+                  Event organizers hold all rights to add/remove participants.
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography>
+                  All decisions made by the judges are final in case of a
+                  competitive event.
                 </Typography>
               </Grid>
               <Grid item>
@@ -92,7 +104,15 @@ export default function EventRegistration({ content }) {
             alignContent='center'
             style={{ paddingTop: '32px' }}
           >
-            <Button>Register Now</Button>
+            <Button>
+              <a
+                href='https://forms.gle/bz14iHDQBRZfnzNg7'
+                target='_blank'
+                rel='noreferrer'
+              >
+                Register Now
+              </a>
+            </Button>
           </Grid>
         </Grid>
       </Grid>
