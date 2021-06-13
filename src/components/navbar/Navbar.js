@@ -1,24 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   makeStyles,
   Button,
-  Modal,
-  Backdrop,
-  Fade,
-  Typography,
   Grid,
   AppBar,
-  Divider,
   Toolbar,
   CircularProgress,
   Avatar,
 } from '@material-ui/core';
 import logo from './mujlogo.png';
 import './navbar.css';
-import UserProvider, { UserContext } from '../providers/UserProvider';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { UserContext } from '../providers/UserProvider';
+import { Link, useHistory } from 'react-router-dom';
 import { auth } from '../../firebase';
-import { firebase } from './../../firebase';
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
@@ -56,18 +50,6 @@ export default function Navbar() {
   const classes = useStyles();
   const user = useContext(UserContext);
   const history = useHistory();
-  // if(user && user.email){
-  //   const userEmail = user.email;
-  // }
-  // const [redirect, setRedirect] = useState(null);
-  // useEffect(() => {
-  //   if (!user) {
-  //     setRedirect('/');
-  //   }
-  // }, [user]);
-  // if (redirect) {
-  //   <Redirect to={redirect} />;
-  // }
   const startLogOut = () => {
     auth
       .signOut()

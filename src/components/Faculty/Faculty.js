@@ -1,12 +1,6 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  createContext,
-  useContext,
-} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import {} from 'react-router-dom';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
 import { db } from '../../firebase';
@@ -30,7 +24,6 @@ import {
   Toolbar,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { addEventToStore } from '../../actions/events';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 // import {

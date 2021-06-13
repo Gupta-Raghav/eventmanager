@@ -79,7 +79,6 @@ export default function Events() {
   // const user = useContext(UserContext);
   // const history = useHistory();
   // const [searchItem, setSearchItem] = useState('');
-  const [filters, setFilters] = useState([]);
   const classes = useStyles();
   const isMobile = useIsMobile();
   // const dispatch = useDispatch();
@@ -97,25 +96,9 @@ export default function Events() {
     startDate,
     endDate
   );
-  // const filteredEvents = events.filter(ievent => {
-  //   return ievent.title.toLowerCase().indexOf(searchItem.toLowerCase()) !== -1;
-  // });
   const handleDateChange = (date) => {
     setStartDate(date);
   };
-  // const fetchEvents = async () => {
-  //   const res = await db.collection(`Clubs/ACM/Events`).get();
-  //   res.docs.forEach((item) => {
-  //     const event = item.data();
-  //     if (event && !titles.includes(event.title)) {
-  //       dispatch(addEventToStore(event));
-  //     }
-  //   });
-  // };
-  // useEffect(() => {
-  //   fetchEvents();
-  // }, []);
-  // callback for event sign up dialog
   const dialogCallback = useCallback(
     ({
       title,

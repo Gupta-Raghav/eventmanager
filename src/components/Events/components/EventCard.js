@@ -2,25 +2,17 @@ import React, { useState } from 'react';
 import {
   makeStyles,
   Grid,
-  Button,
   Card,
   CardContent,
   CardMedia,
-  Dialog,
-  AppBar,
-  Slide,
   Box,
-  Toolbar,
   Typography,
   IconButton,
   CardActions,
-  Collapse,
 } from '@material-ui/core';
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
 import useIsMobile from '../../../hooks/useIsMobile';
-import { DescriptionOutlined } from '@material-ui/icons';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
