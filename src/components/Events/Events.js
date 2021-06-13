@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import EventRegistration from './components/EventRegistration';
 import Selectevent from '../../Selectors/events';
+import Carousel from './Carousel';
 // import DateFnsUtils from '@date-io';
 // import { EventCard } from './components/EventCard';
 import EventCard from './components/EventCard';
@@ -182,7 +183,7 @@ export default function Events() {
             </Grid>
             <Divider />
             <Grid item style={{ textAlign: 'center', padding: '5em 0em' }}>
-              <Typography>CAROUSEL </Typography>
+              <Carousel />
             </Grid>
             <Divider />
             <Grid item />
