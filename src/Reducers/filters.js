@@ -5,7 +5,8 @@ const filtersReducerDefaultState = {
   text: '',
   sortBy: 'date',
   startDate: moment().startOf('month'),
-  endDate: moment().endOf('month')
+  endDate: moment().endOf('month'),
+  type: ''
 };
 
 export default (state = filtersReducerDefaultState, action) => {
@@ -38,7 +39,7 @@ export default (state = filtersReducerDefaultState, action) => {
       case 'SET_TYPE':
         return {
           ...state,
-          category: action.category
+          type: action.type
         };
       case 'SET_CLUB':
           return {

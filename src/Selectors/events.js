@@ -2,7 +2,7 @@ import moment from 'moment';
 
 // Get visible events
 
-export default (events, {text, sortBy, startDate, endDate,category}) => {
+export default (events, {text, sortBy, startDate, endDate,type }) => {
   return events
     .filter((event) => {
       const eventDateMoment = moment(event.eventDate);
@@ -15,8 +15,8 @@ export default (events, {text, sortBy, startDate, endDate,category}) => {
       const textMatch = text
         ? event.title.toLowerCase().indexOf(text.toLowerCase()) !== -1
         : true;
-      const typeMatch = category ? event.category.toLowerCase().indexOf(text.toLowerCase()) !== -1: true;
-      return startDateMatch && endDateMatch && textMatch;
+      const typeMatch = type ? event.type.toLowerCase().indexOf(text.toLowerCase()) !== -1: true;
+      return startDateMatch && endDateMatch && textMatch && typeMatch;
     })
     .sort((a, b) => {
       if (sortBy === 'date') {
