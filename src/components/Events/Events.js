@@ -203,6 +203,7 @@ export default function Events() {
                     <EventCard
                       name={event.title}
                       poster={event.poster}
+                      type={event.type}
                       description={event.description}
                       eventObject={event}
                       dialogCallback={dialogCallback}

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 // Filters Reducer
 import moment from 'moment';
 
@@ -6,7 +7,7 @@ const filtersReducerDefaultState = {
   sortBy: 'date',
   startDate: moment().startOf('month'),
   endDate: moment().endOf('month'),
-  type: ''
+  type: '',
 };
 
 export default (state = filtersReducerDefaultState, action) => {
@@ -14,39 +15,38 @@ export default (state = filtersReducerDefaultState, action) => {
     case 'SET_TEXT_FILTER':
       return {
         ...state,
-        text: action.text
+        text: action.text,
       };
     case 'SORT_BY_AMOUNT':
       return {
         ...state,
-        sortBy: 'amount'
+        sortBy: 'amount',
       };
     case 'SORT_BY_DATE':
       return {
         ...state,
-        sortBy: 'date'
+        sortBy: 'date',
       };
     case 'SET_START_DATE':
       return {
         ...state,
-        startDate: action.startDate
+        startDate: action.startDate,
       };
     case 'SET_END_DATE':
       return {
         ...state,
-        endDate: action.endDate
+        endDate: action.endDate,
       };
-      case 'SET_TYPE':
-        console.log(action.type)
-        return {
-          ...state,
-          type: action.type
-        };
-      case 'SET_CLUB':
-          return {
-            ...state,
-            club: action.club
-          };
+    case 'SET_TYPE':
+      return {
+        ...state,
+        type: action.typeStr,
+      };
+    case 'SET_CLUB':
+      return {
+        ...state,
+        club: action.club,
+      };
     default:
       return state;
   }

@@ -61,7 +61,7 @@ export default function EventRegistration({ content }) {
               </Grid>
               <Grid item>
                 <Typography variant='body1'>
-                  <b>Fees:</b>{' '}
+                  <b>Registration fees:</b>{' '}
                   {content.amount === null ? 'Free' : content.amount}
                 </Typography>
               </Grid>
@@ -73,7 +73,7 @@ export default function EventRegistration({ content }) {
               </Grid>
               <Grid item>
                 <Typography variant='body1'>
-                  <b>Prize:</b> 50000
+                  <b>Prize:</b> {content.prizeMoney}
                 </Typography>
               </Grid>
               <Grid item style={{ paddingTop: '16px' }}>

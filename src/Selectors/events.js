@@ -1,8 +1,9 @@
+/* eslint-disable import/no-anonymous-default-export */
 import moment from 'moment';
 
 // Get visible events
 
-export default (events, {text, sortBy, startDate, endDate,type }) => {
+export default (events, { text, sortBy, startDate, endDate, type }) => {
   return events
     .filter((event) => {
       const eventDateMoment = moment(event.eventDate);
@@ -15,10 +16,11 @@ export default (events, {text, sortBy, startDate, endDate,type }) => {
       const textMatch = text
         ? event.title.toLowerCase().indexOf(text.toLowerCase()) !== -1
         : true;
-      const typeMatch = type ? event.type.toLowerCase().indexOf(type.toLowerCase()) !== -1
-      : true;
-      
-      return startDateMatch && endDateMatch && textMatch;
+      const typeMatch = type
+        ? event.type.toLowerCase().indexOf(type.toLowerCase()) !== -1
+        : true;
+
+      return textMatch && typeMatch;
     })
     .sort((a, b) => {
       if (sortBy === 'date') {

@@ -3,6 +3,7 @@ import { UserContext } from '../providers/UserProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
+import SortBy from './components/SortBy';
 import { useStyles } from '@material-ui/pickers/views/Calendar/SlideTransition';
 import eventsFilter from '../../Selectors/events';
 import {
@@ -30,7 +31,7 @@ const EventsListFilters = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const filters = useSelector((state) => state.filters);
-  console.log(filters.type);
+  console.log(filters);
   const events = useSelector((state) => state.events);
   const titles = events.map((e) => e.title);
   // const [searchItem, setSearchItem] = useState('');
@@ -52,8 +53,8 @@ const EventsListFilters = () => {
   const onStartDateChange = ({ startDate }) => {
     dispatch(setStartDate(startDate));
   };
-  const onEndDateChange = (endDate) => {
-    setEndDate(endDate);
+  const onEndDateChange = ({ endDate }) => {
+    dispatch(setEndDate(endDate));
   };
   const onTypeSelect = (e) => {
     setType(e.target.value);
@@ -89,11 +90,7 @@ const EventsListFilters = () => {
         <Grid item>
           <Grid container>
             <Grid item>
-              <Selector
-                searchItem={searchClub}
-                list={filters}
-                placeholder='Club'
-              />
+              <SortBy searchItem={searchClub} placeholder='Sort By' />
             </Grid>
             <Grid item>
               <Selector
@@ -143,9 +140,8 @@ const EventsListFilters = () => {
                   id='date'
                   label='Start Date'
                   type='date'
-                  defaultValue='2017-05-24'
                   className={classes.textField}
-                  value={filters.startDate}
+                  value={startDate}
                   onChange={onStartDateChange}
                   InputLabelProps={{
                     shrink: true,
@@ -162,9 +158,8 @@ const EventsListFilters = () => {
                   id='date'
                   label='End Date'
                   type='date'
-                  defaultValue='2017-05-24'
                   className={classes.textField}
-                  value={filters.endDate}
+                  value={endDate}
                   onChange={onEndDateChange}
                   InputLabelProps={{
                     shrink: true,
