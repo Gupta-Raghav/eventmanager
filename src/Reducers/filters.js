@@ -37,6 +37,7 @@ export default (state = filtersReducerDefaultState, action) => {
         endDate: action.endDate
       };
       case 'SET_TYPE':
+        console.log(action.type)
         return {
           ...state,
           type: action.type

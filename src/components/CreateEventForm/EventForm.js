@@ -260,25 +260,25 @@ const CreateEventForm = () => {
                       onChange={onTypeChange}
                     />
                     <FormControlLabel
-                      value='cultural'
+                      value='Cultural'
                       control={<Radio />}
                       label='Cultural'
                       onChange={onTypeChange}
                     />
                     <FormControlLabel
-                      value='department'
+                      value='Department'
                       control={<Radio />}
                       label='Department'
                       onChange={onTypeChange}
                     />
                     <FormControlLabel
-                      value='curricular'
+                      value='Curricular'
                       control={<Radio />}
-                      label='curricular'
+                      label='Curricular'
                       onChange={onTypeChange}
                     />
                     <FormControlLabel
-                      value='social'
+                      value='Social'
                       control={<Radio />}
                       label='Social'
                       onChange={onTypeChange}

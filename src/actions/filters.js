@@ -29,6 +29,7 @@ export const setTextFilter = (text = '') => ({
     type :'SET_TYPE',
     type
   })
+  
   export const setClub = (club) => ({
     type:'SET_CLUB',
     club

@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles, Select, InputLabel, FormControl } from '@material-ui/core';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import { useDispatch, useSelector } from 'react-redux';
+import {setType} from '../../../actions/filters'
 const useStyles = makeStyles(() => ({
   selector: {
     margin: '8px',
@@ -9,12 +11,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Selector({
+  Value,
   searchItem,
   setSearchItem,
-  list,
-  placeholder,
+  placeholder
 }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   return (
     <div>
       <FormControl variant='filled' className={classes.selector}>
@@ -22,23 +25,25 @@ export default function Selector({
           {placeholder}
         </InputLabel>
         <Select
-          native
-          value={searchItem}
+          value={Value}
           onChange={(e) => {
-            setSearchItem(e.target.value);
+            setSearchItem(searchItem)
+            dispatch(setType(e.target.value))
+            console.log(e.target.value)
           }}
           inputProps={{
             name: placeholder,
             id: 'filled-org-native-simple',
           }}
         >
-          <option aria-label='None' value='brrr' />
-          {/* {list &&
-            list.map((value, index) => {
-              return <option value={index}>{value}</option>;
-            })} */}
+        <MenuItem value='Technical'>Technical</MenuItem>
+        <MenuItem value='Cultural'>Cultural</MenuItem>
+        <MenuItem value='Department'>Department</MenuItem>
+        <MenuItem value='Curricular'>Curricular</MenuItem>
+        <MenuItem value='Social'>Soical</MenuItem>     
         </Select>
       </FormControl>
     </div>
+    
   );
 }

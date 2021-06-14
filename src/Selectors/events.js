@@ -15,8 +15,10 @@ export default (events, {text, sortBy, startDate, endDate,type }) => {
       const textMatch = text
         ? event.title.toLowerCase().indexOf(text.toLowerCase()) !== -1
         : true;
-      const typeMatch = type ? event.type.toLowerCase().indexOf(text.toLowerCase()) !== -1: true;
-      return startDateMatch && endDateMatch && textMatch && typeMatch;
+      const typeMatch = type ? event.type.toLowerCase().indexOf(type.toLowerCase()) !== -1
+      : true;
+      
+      return startDateMatch && endDateMatch && textMatch;
     })
     .sort((a, b) => {
       if (sortBy === 'date') {
