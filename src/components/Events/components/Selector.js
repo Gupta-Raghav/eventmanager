@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  makeStyles,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-} from '@material-ui/core';
-
+import { makeStyles, Select, InputLabel, FormControl } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { setType } from '../../../actions/filters';
 const useStyles = makeStyles(() => ({
   selector: {
     margin: '8px',
@@ -15,13 +11,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Selector({
+  Value,
   searchItem,
   setSearchItem,
-  list,
   placeholder,
 }) {
   const classes = useStyles();
-  console.log(list, searchItem);
+  const dispatch = useDispatch();
   return (
     <div>
       <FormControl variant='filled' className={classes.selector}>
@@ -29,22 +25,22 @@ export default function Selector({
           {placeholder}
         </InputLabel>
         <Select
-          // native
-          value={searchItem}
+          value={Value}
           onChange={(e) => {
-            setSearchItem(e.target.value);
+            setSearchItem(searchItem);
+            dispatch(setType(e.target.value));
+            console.log(e.target.value);
           }}
           inputProps={{
             name: placeholder,
             id: 'filled-org-native-simple',
           }}
         >
-          {list.map((item, index) => (
-            <MenuItem value={item}>{item}</MenuItem>
-          ))}
-          {/* <MenuItem value='ACM'>ACM</MenuItem>
-          <MenuItem value='ACM'>IEEE</MenuItem>
-          <MenuItem value='ACM'>TMC</MenuItem> */}
+          <MenuItem value='Technical'>Technical</MenuItem>
+          <MenuItem value='Cultural'>Cultural</MenuItem>
+          <MenuItem value='Department'>Department</MenuItem>
+          <MenuItem value='Curricular'>Curricular</MenuItem>
+          <MenuItem value='Social'>Soical</MenuItem>
         </Select>
       </FormControl>
     </div>

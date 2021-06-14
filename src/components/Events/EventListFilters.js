@@ -13,6 +13,7 @@ import {
   setType,
 } from '../../actions/filters';
 import MenuItem from '@material-ui/core/MenuItem';
+import { DateRangePicker } from 'react-dates';
 import {
   Grid,
   InputLabel,
@@ -21,7 +22,7 @@ import {
   FormControl,
   FilledInput,
 } from '@material-ui/core';
-
+import { makeStyles, Select } from '@material-ui/core';
 const EventsListFilters = () => {
   // const [filters, setFilters] = useState([]);
   const classes = useStyles();
@@ -29,28 +30,35 @@ const EventsListFilters = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const filters = useSelector((state) => state.filters);
+  console.log(filters.type);
   const events = useSelector((state) => state.events);
   const titles = events.map((e) => e.title);
+  // const [searchItem, setSearchItem] = useState('');
+  // const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
+  // const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
   const [searchClub, setSearchClub] = useState('');
-  const [searchType, setSearchType] = useState('');
-  const [startDate, setStartDate] = useState(new Date('2014-08-18T21:11:54'));
-  const [endDate, setEndDate] = useState(new Date('2014-08-18T21:11:54'));
+  const [searchtype, setSearchType] = useState('');
   const [type, settype] = useState('');
-  // const filteredEvents = eventsFilter(
-  //   events,
-  //   searchClub,
-  //   searchType,
-  //   'date',
-  //   startDate,
-  //   endDate
-  // );
-
-  const onStartDateChange = (startDate) => {
-    setStartDate(startDate);
+  const [startDate, setstartDate] = useState(filters.startDate);
+  const [endDate, setendDate] = useState(filters.endDate);
+  const [focusedInput, setFocusedinput] = useState(true);
+  const filteredEvents = eventsFilter(
+    events,
+    searchtype,
+    'date'
+    // startDate,
+    // endDate
+  );
+  const onStartDateChange = ({ startDate }) => {
+    dispatch(setStartDate(startDate));
   };
   const onEndDateChange = (endDate) => {
     setEndDate(endDate);
   };
+  const onTypeSelect = (e) => {
+    setType(e.target.value);
+  };
+  const types = ['Technical', 'Cultural', 'Department', 'curricular', 'social'];
   return (
     <div>
       <Grid item>
@@ -83,18 +91,37 @@ const EventsListFilters = () => {
             <Grid item>
               <Selector
                 searchItem={searchClub}
-                setSearchItem={setSearchClub}
-                list={['ACM', 'IEEE', 'TMC']}
+                list={filters}
                 placeholder='Club'
               />
             </Grid>
             <Grid item>
               <Selector
-                searchItem={searchType}
+                Value={filters.type}
+                searchItem={searchtype}
                 setSearchItem={setSearchType}
-                list={['Technical', 'Department', 'Curricular', 'Social']}
                 placeholder='Type'
               />
+              {/* <Select
+                   value={type}
+                   onChange={onTypeSelect}
+                      >
+                    {types.map((type) => (
+                        <MenuItem key={type} value={type}>
+                          {type}
+                        </MenuItem>
+                      ))}
+      </Select> */}
+              {/* <Selector
+                      // TODO: set-up separate states for separate selectors
+                      searchItem={searchtype}
+                      Typevalue= {filters.type}
+                      onChange={(e)=> dispatch(setType(e.target.value))}
+                      setSearchItem={setSearchType}
+                      labelWidth={20}
+                    >
+                      
+                      </Selector> */}
             </Grid>
           </Grid>
         </Grid>
@@ -105,6 +132,13 @@ const EventsListFilters = () => {
                 className={`${classes.container} ${classes.date}`}
                 noValidate
               >
+                {/* <DateRangePicker
+                        startDate={filters.startDate} 
+                        endDate={filters.endDate}
+                        onDatesChange={onDatesChange} 
+                        focusedInput={focusedInput} 
+                        onFocusChange={onFocusChange} 
+                      /> */}
                 <TextField
                   id='date'
                   label='Start Date'
@@ -112,7 +146,7 @@ const EventsListFilters = () => {
                   defaultValue='2017-05-24'
                   className={classes.textField}
                   value={filters.startDate}
-                  onChange={(e) => onStartDateChange(e)}
+                  onChange={onStartDateChange}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -131,7 +165,7 @@ const EventsListFilters = () => {
                   defaultValue='2017-05-24'
                   className={classes.textField}
                   value={filters.endDate}
-                  onChange={(e) => onEndDateChange(e)}
+                  onChange={onEndDateChange}
                   InputLabelProps={{
                     shrink: true,
                   }}
