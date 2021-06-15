@@ -40,7 +40,7 @@ export default function Selector({
           <MenuItem value='Cultural'>Cultural</MenuItem>
           <MenuItem value='Department'>Department</MenuItem>
           <MenuItem value='Curricular'>Curricular</MenuItem>
-          <MenuItem value='Social'>Soical</MenuItem>
+          <MenuItem value='Social'>Social</MenuItem>
         </Select>
       </FormControl>
     </div>

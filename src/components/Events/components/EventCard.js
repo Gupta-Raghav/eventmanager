@@ -13,6 +13,7 @@ import {
 import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
 import useIsMobile from '../../../hooks/useIsMobile';
+import { truncateString } from '../../../utils/utilityFunctions';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -54,7 +55,7 @@ const EventCard = ({ name, type, poster, eventObject, dialogCallback }) => {
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <Typography component='h5' variant='h5'>
-              {name}
+              {truncateString(name, 25)}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
               {type}

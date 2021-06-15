@@ -1,10 +1,10 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
+import moment from 'moment';
 import { UserContext } from '../providers/UserProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Selector from './components/Selector';
 import SortBy from './components/SortBy';
-import { useStyles } from '@material-ui/pickers/views/Calendar/SlideTransition';
 import eventsFilter from '../../Selectors/events';
 import {
   setTextFilter,
@@ -24,6 +24,40 @@ import {
   FilledInput,
 } from '@material-ui/core';
 import { makeStyles, Select } from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+const useStyles = makeStyles(() => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: '8px',
+    marginRight: '8px',
+    width: 200,
+  },
+  paper: {
+    margin: '8px',
+    width: '100%',
+    height: '128px',
+  },
+  eventsbg: {
+    backgroundColor: '#f3f3f3',
+  },
+  margin: {
+    margin: '8px',
+  },
+  date: {
+    padding: '8px',
+  },
+  buttons: {
+    maxWidth: '30px',
+    maxHeight: '30px',
+    minWidth: '30px',
+    minHeight: '30px',
+    boxShadow: 'none',
+  },
+  text: { color: '#95461E', fontFamily: 'Montserrat, sans-serif' },
+}));
 const EventsListFilters = () => {
   // const [filters, setFilters] = useState([]);
   const classes = useStyles();
@@ -40,8 +74,8 @@ const EventsListFilters = () => {
   const [searchClub, setSearchClub] = useState('');
   const [searchtype, setSearchType] = useState('');
   const [type, settype] = useState('');
-  const [startDate, setstartDate] = useState(filters.startDate);
-  const [endDate, setendDate] = useState(filters.endDate);
+  const [startDate, setstartDate] = useState(moment().startOf('day'));
+  const [endDate, setendDate] = useState(moment().endOf('month'));
   const [focusedInput, setFocusedinput] = useState(true);
   const filteredEvents = eventsFilter(
     events,
@@ -129,20 +163,14 @@ const EventsListFilters = () => {
                 className={`${classes.container} ${classes.date}`}
                 noValidate
               >
-                {/* <DateRangePicker
-                        startDate={filters.startDate} 
-                        endDate={filters.endDate}
-                        onDatesChange={onDatesChange} 
-                        focusedInput={focusedInput} 
-                        onFocusChange={onFocusChange} 
-                      /> */}
                 <TextField
-                  id='date'
+                  id='startdate'
                   label='Start Date'
                   type='date'
                   className={classes.textField}
-                  value={startDate}
-                  onChange={onStartDateChange}
+                  defaultValue={startDate}
+                  value={filters.startDate}
+                  onChange={(e) => dispatch(setStartDate(e.target.value))}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -155,12 +183,13 @@ const EventsListFilters = () => {
                 noValidate
               >
                 <TextField
-                  id='date'
+                  id='enddate'
                   label='End Date'
                   type='date'
                   className={classes.textField}
-                  value={endDate}
-                  onChange={onEndDateChange}
+                  value={filters.endDate}
+                  defaultValue={endDate}
+                  onChange={(e) => dispatch(setEndDate(e.target.value))}
                   InputLabelProps={{
                     shrink: true,
                   }}

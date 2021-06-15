@@ -176,13 +176,11 @@ export default function Events() {
           <Grid container direction='column' spacing={2}>
             <Grid item>
               <Typography className={classes.text}>
-                <a href='/upcoming'>
-                  <h2>Upcoming Events</h2>
-                </a>
+                <h2>Upcoming Events</h2>
               </Typography>
             </Grid>
             <Divider />
-            <Grid item style={{ textAlign: 'center', padding: '5em 0em' }}>
+            <Grid item style={{ textAlign: 'center', padding: '2em 0em' }}>
               <Carousel />
             </Grid>
             <Divider />

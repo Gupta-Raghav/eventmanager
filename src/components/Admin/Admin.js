@@ -186,7 +186,7 @@ export default function Events() {
           <Grid container direction='column' spacing={2}>
             <Grid item>
               <Typography className={classes.text}>
-                <h2>Admin Dashboard</h2>
+                <h2>DSW Dashboard</h2>
               </Typography>
             </Grid>
             <Grid item>

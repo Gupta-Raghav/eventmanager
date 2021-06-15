@@ -23,6 +23,7 @@ import {
 } from '@material-ui/core';
 import './form.css';
 import { startAddEvent } from '../../actions/events';
+import { db } from '../../firebase';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -47,20 +48,21 @@ const useStyles = makeStyles(() => ({
     fontWeight: 500,
   },
 }));
-const CreateEventForm = () => {
+const CreateEventForm = ({ dialogContent }) => {
+  console.log(dialogContent);
   const classes = useStyles();
-  const [title, setTitle] = useState('');
-  const [description, setdescription] = useState('');
-  const [amount, setamount] = useState(null);
-  const [venue, setvenue] = useState('Old Audi');
-  const [eventStartDate, seteventStartDate] = useState(moment());
-  const [eventEndDate, seteventEndDate] = useState(moment());
-  const [eventStartTime, setStartTime] = useState('00:00');
-  const [eventEndTime, setEndTime] = useState('23:59');
-  const [type, settype] = useState('Technical');
-  const [poster, setposter] = useState(
-    'https://res.cloudinary.com/dashed/image/upload/v1611051427/acm/klgjkuqdehb2g4buvprx.png'
+  const [title, setTitle] = useState(dialogContent.title);
+  const [description, setdescription] = useState(dialogContent.description);
+  const [amount, setamount] = useState(dialogContent.amount);
+  const [venue, setvenue] = useState(dialogContent.venue);
+  const [eventStartDate, seteventStartDate] = useState(
+    dialogContent.eventStartDate
   );
+  const [eventEndDate, seteventEndDate] = useState(dialogContent.eventEndDate);
+  const [eventStartTime, setStartTime] = useState(dialogContent.eventStartTime);
+  const [eventEndTime, setEndTime] = useState(dialogContent.eventEndDate);
+  const [type, settype] = useState(dialogContent.type);
+  const [poster, setposter] = useState(dialogContent.poster);
   const [sponsorToggle, setsponsorToggle] = useState(false);
   const [sponsorName, setsponsorName] = useState('');
   const [feeToggle, setFeeToggle] = useState(false);
@@ -70,21 +72,24 @@ const CreateEventForm = () => {
 
   // todo: prize money; permissions
   const handleSubmit = () => {
-    const formData = {
-      title,
-      description,
-      amount,
-      eventStartTime,
-      eventEndTime,
-      venue,
-      eventStartDate,
-      eventEndDate,
-      type,
-      poster,
-      sponsorToggle,
-      sponsorName,
-    };
-    dispatch(startAddEvent(formData));
+    db.collection(`Clubs/ACM/Events`).doc(dialogContent.title).update({
+      title: title,
+      description: description,
+      amount: amount,
+      eventStartTime: eventStartTime,
+      eventEndTime: eventEndTime,
+      venue: venue,
+      eventStartDate: eventStartDate,
+      eventEndDate: eventEndDate,
+      type: type,
+      poster: poster,
+      sponsorToggle: sponsorToggle,
+      sponsorName: sponsorName,
+      FCPermission: true,
+      FCRejected: false,
+      DSWRejected: false,
+      DSWPermission: false,
+    });
     history.push('/events');
   };
   const onTitleChange = (e) => {
@@ -154,14 +159,13 @@ const CreateEventForm = () => {
   };
   return (
     <div>
-      <Navbar />
       <Paper className={classes.formPaper} elevation='10'>
         <Typography
           variant='h4'
           className='heading'
           style={{ fontWeight: 500 }}
         >
-          Create Event
+          Edit Event
         </Typography>
         <Grid
           container
@@ -252,7 +256,12 @@ const CreateEventForm = () => {
                   <Typography variant='h5' className={classes.fieldHeaders}>
                     Type
                   </Typography>
-                  <RadioGroup row aria-label='type' name='type'>
+                  <RadioGroup
+                    row
+                    aria-label='type'
+                    name='type'
+                    defaultValue={type}
+                  >
                     <FormControlLabel
                       value='Technical'
                       control={<Radio />}
@@ -300,7 +309,7 @@ const CreateEventForm = () => {
                         id='start-date'
                         label='Start Date'
                         type='date'
-                        defaultValue='01-01-2020'
+                        value={eventStartDate}
                         InputLabelProps={{ shrink: true }}
                         onChange={handleonDateChange}
                       />
@@ -312,6 +321,7 @@ const CreateEventForm = () => {
                         label='End Date'
                         type='date'
                         defaultValue='30-01-2020'
+                        value={eventEndDate}
                         InputLabelProps={{ shrink: true }}
                         onChange={handleonDateChange}
                       />
@@ -325,6 +335,7 @@ const CreateEventForm = () => {
                         label='Start time'
                         type='time'
                         defaultValue='00:00'
+                        value={eventStartTime}
                         InputLabelProps={{ shrink: true }}
                         onChange={handleTimeChange}
                       />
@@ -336,6 +347,7 @@ const CreateEventForm = () => {
                         label='End time'
                         type='time'
                         defaultValue='23:59'
+                        value={eventEndTime}
                         InputLabelProps={{ shrink: true }}
                         onChange={handleTimeChange}
                       />

@@ -6,12 +6,13 @@ import moment from 'moment';
 export default (events, { text, sortBy, startDate, endDate, type }) => {
   return events
     .filter((event) => {
-      const eventDateMoment = moment(event.eventDate);
+      const eventStartDateMoment = moment(event.eventStartDate);
+      const eventEndDateMoment = moment(event.eventStartDate);
       const startDateMatch = startDate
-        ? moment(startDate).isSameOrBefore(eventDateMoment, 'day')
+        ? moment(startDate).isSameOrBefore(eventStartDateMoment, 'day')
         : true;
       const endDateMatch = endDate
-        ? moment(endDate).isSameOrAfter(eventDateMoment, 'day')
+        ? moment(endDate).isSameOrAfter(eventEndDateMoment, 'day')
         : true;
       const textMatch = text
         ? event.title.toLowerCase().indexOf(text.toLowerCase()) !== -1
@@ -20,7 +21,7 @@ export default (events, { text, sortBy, startDate, endDate, type }) => {
         ? event.type.toLowerCase().indexOf(type.toLowerCase()) !== -1
         : true;
 
-      return textMatch && typeMatch;
+      return textMatch && typeMatch && startDateMatch && endDateMatch;
     })
     .sort((a, b) => {
       if (sortBy === 'date') {

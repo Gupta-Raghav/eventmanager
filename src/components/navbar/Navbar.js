@@ -110,37 +110,39 @@ export default function Navbar() {
                               style={{ boxShadow: '0px' }}
                               disableElevation
                             >
-                              📇 organizer tab
+                              📇 DSW tab
                             </Button>
                           </Link>
                         </Grid>
                       </>
                     ) : (
-                      <Grid item xs>
-                        <Link to='/createevent'>
-                          <Button
-                            color='inherit'
-                            className={classes.button}
-                            style={{ boxShadow: '0px' }}
-                            disableElevation
-                          >
-                            ➕create event
-                          </Button>
-                        </Link>
-                      </Grid>
+                      <>
+                        <Grid item xs>
+                          <Link to='/createevent'>
+                            <Button
+                              color='inherit'
+                              className={classes.button}
+                              style={{ boxShadow: '0px' }}
+                              disableElevation
+                            >
+                              ➕create event
+                            </Button>
+                          </Link>
+                        </Grid>
+                        <Grid item xs>
+                          <Link to='/yourEvent'>
+                            {' '}
+                            <Button
+                              color='inherit'
+                              className={classes.button}
+                              disableElevation
+                            >
+                              📅 Your events
+                            </Button>
+                          </Link>
+                        </Grid>
+                      </>
                     )}
-                    <Grid item xs>
-                      <Link to='/yourEvent'>
-                        {' '}
-                        <Button
-                          color='inherit'
-                          className={classes.button}
-                          disableElevation
-                        >
-                          📅 Your events
-                        </Button>
-                      </Link>
-                    </Grid>
                     <Grid item xs>
                       <Button
                         disableElevation
